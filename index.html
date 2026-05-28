@@ -199,7 +199,7 @@ async function startFortune(){
   const todayStr=`${today.getFullYear()}年${today.getMonth()+1}月${today.getDate()}日`;
 
   try{
-    const res=await fetch('https://api.sukisuki39.workers.dev/',{
+    const res=await fetch('https://uranai-worker.suukii01.workers.dev/',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
