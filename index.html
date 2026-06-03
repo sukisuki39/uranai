@@ -32,6 +32,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
 .form-input:focus{border-color:var(--petal);box-shadow:0 0 0 3px rgba(212,160,181,.15);}
 .form-input::placeholder{color:var(--ink-pale);}
 .form-note{font-size:10px;color:var(--ink-pale);margin-top:6px;line-height:1.8;}
+.dob-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:8px;}
 .date-toggle{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
 .date-toggle-btn{padding:14px 8px;background:var(--white);border:1px solid var(--border);border-radius:4px;font-family:'Noto Sans JP',sans-serif;font-size:13px;color:var(--ink-soft);cursor:pointer;transition:all .2s;text-align:center;}
 .date-toggle-btn.selected{background:var(--ink);border-color:var(--ink);color:var(--cream);}
@@ -179,7 +180,17 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
     <span class="form-label">生年月日</span>
     <span class="form-label-sub">星座・数秘術ナンバーの算出に使用</span>
   </div>
-  <input class="form-input" type="date" id="dobInput" />
+  <div class="dob-grid">
+    <select class="form-input" id="dobYear">
+      <option value="">年</option>
+    </select>
+    <select class="form-input" id="dobMonth">
+      <option value="">月</option>
+    </select>
+    <select class="form-input" id="dobDay">
+      <option value="">日</option>
+    </select>
+  </div>
   <p class="form-note">※生年月日は鑑定のみに使用し、保存・記録はしません。</p>
 </div>
 
@@ -332,6 +343,26 @@ async function verifyToken(token){
 // 初期化
 window.addEventListener('DOMContentLoaded',async()=>{
   currentToken=getTokenFromURL();
+  // 生年月日セレクトボックスの初期化
+  const yearSel=document.getElementById('dobYear');
+  const now=new Date().getFullYear();
+  for(let y=now;y>=1930;y--){
+    const opt=document.createElement('option');
+    opt.value=y;opt.textContent=y+'年';
+    yearSel.appendChild(opt);
+  }
+  const monthSel=document.getElementById('dobMonth');
+  for(let m=1;m<=12;m++){
+    const opt=document.createElement('option');
+    opt.value=m;opt.textContent=m+'月';
+    monthSel.appendChild(opt);
+  }
+  const daySel=document.getElementById('dobDay');
+  for(let d=1;d<=31;d++){
+    const opt=document.createElement('option');
+    opt.value=d;opt.textContent=d+'日';
+    daySel.appendChild(opt);
+  }
   if(!currentToken){
     // トークンなし＝直接アクセス → そのまま表示（テスト用）
     return;
@@ -418,7 +449,9 @@ async function startFortune(){
   document.getElementById('fortuneBtn').disabled=true;
   window.scrollTo({top:document.getElementById('loading').offsetTop-40,behavior:'smooth'});
 
-  const [y,m,d]=dob.split('-').map(Number);
+  const y=parseInt(document.getElementById('dobYear').value);
+  const m=parseInt(document.getElementById('dobMonth').value);
+  const d=parseInt(document.getElementById('dobDay').value);
   const zodiac=getZodiac(m,d);
   const lifeNum=getLifeNumber(y,m,d);
   const targetDate=fortuneDate?new Date(fortuneDate):new Date();
@@ -473,6 +506,36 @@ async function startFortune(){
     document.getElementById('fortuneBtn').disabled=false;
     console.error(e);
   }
+}
+
+function renderMarkdown(text){
+  var lines = text.split('\n');
+  var html = '';
+  var inList = false;
+  for(var i=0;i<lines.length;i++){
+    var line = lines[i];
+    if(line === '---'){
+      if(inList){html+='</ul>';inList=false;}
+      html+='<hr>';
+    } else if(line.indexOf('### ') === 0){
+      if(inList){html+='</ul>';inList=false;}
+      html+='<h3>'+line.replace('### ','')+'</h3>';
+    } else if(line.indexOf('* ') === 0){
+      if(!inList){html+='<ul>';inList=true;}
+      var li = line.replace('* ','');
+      li = li.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');
+      html+='<li>'+li+'</li>';
+    } else if(line.trim() === ''){
+      if(inList){html+='</ul>';inList=false;}
+    } else {
+      if(inList){html+='</ul>';inList=false;}
+      var p = line.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');
+      p = p.replace(/\*([^*]+)\*/g,'<em>$1</em>');
+      html+='<p>'+p+'</p>';
+    }
+  }
+  if(inList)html+='</ul>';
+  return html;
 }
 </script>
 </body>
