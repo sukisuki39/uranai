@@ -459,20 +459,7 @@ async function startFortune(){
     // Markdownをシンプルなレンダリング
     const md = f.markdown||'';
     document.getElementById('resMarkdown').className='md';
-    document.getElementById('resMarkdown').innerHTML = md
-      .replace(/---/g,'<hr>')
-      .replace(/### (.+)/g,'<h3>$1</h3>')
-      .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
-      .replace(/\*(.+?)\*/g,'<em>$1</em>')
-      .replace(/^\* (.+)$/gm,'<li>$1</li>')
-      .replace(/(<li>.*<\/li>)/gs, '<ul>$1</ul>')
-      .replace(/
-
-/g,'</p><p>')
-      .replace(/^(?!<[huepl])(.+)$/gm,'<p>$1</p>')
-      .replace(/<p><\/p>/g,'')
-      .replace(/<p>(<h|<hr|<ul)/g,'$1')
-      .replace(/(<\/h3>|<\/ul>|<hr>)<\/p>/g,'$1');
+    document.getElementById('resMarkdown').innerHTML = renderMarkdown(md);
 
     document.getElementById('loading').style.display='none';
     document.getElementById('result').style.display='block';
