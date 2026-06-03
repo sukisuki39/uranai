@@ -85,14 +85,15 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
 .footer{text-align:center;padding-top:40px;border-top:1px solid var(--border);margin-top:8px;}
 .footer-note{font-size:10px;color:var(--ink-pale);line-height:2.2;letter-spacing:.05em;}
 .error-msg{background:#fff0f3;border:1px solid #f5c6cb;border-radius:4px;padding:16px 20px;font-size:13px;color:#842029;margin-top:16px;display:none;line-height:1.8;text-align:center;}
-.md h3{font-family:'Shippori Mincho B1',serif;font-size:14px;color:var(--gold);letter-spacing:.15em;margin:24px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--gold-light);}
+.md h3{font-family:'Shippori Mincho B1',serif;font-size:13px;color:var(--gold);letter-spacing:.2em;margin:28px 0 12px;padding:8px 14px;background:var(--gold-pale);border-left:3px solid var(--gold);border-radius:0 4px 4px 0;}
 .md h3:first-child{margin-top:0;}
-.md p{font-size:14px;line-height:2.4;color:var(--ink-mid);font-weight:300;margin-bottom:12px;}
+.md p{font-size:14px;line-height:2.4;color:var(--ink-mid);font-weight:300;margin-bottom:14px;}
 .md ul{list-style:none;padding:0;margin:8px 0 16px;}
-.md ul li{font-size:13px;line-height:2;color:var(--ink-mid);padding:8px 12px;background:var(--petal-pale);border-left:3px solid var(--petal);margin-bottom:8px;border-radius:0 4px 4px 0;}
+.md ul li{font-size:13px;line-height:2;color:var(--ink-mid);padding:12px 16px;background:var(--petal-pale);border-left:3px solid var(--petal);margin-bottom:10px;border-radius:0 4px 4px 0;}
+.md ul li strong{font-weight:700;color:var(--ink);display:block;margin-bottom:2px;}
 .md strong{font-weight:600;color:var(--ink);}
-.md em{font-style:italic;color:var(--ink-soft);font-size:12px;line-height:1.8;display:block;margin-top:16px;padding:12px;background:rgba(26,18,24,0.04);border-radius:4px;}
-.md hr{border:none;border-top:1px solid var(--border);margin:20px 0;}
+.md em{font-style:normal;color:var(--ink-soft);font-size:12px;line-height:1.9;display:block;margin-top:20px;padding:14px 16px;background:rgba(26,18,24,0.04);border-radius:4px;border-left:3px solid var(--border);}
+.md hr{border:none;border-top:1px solid var(--border);margin:24px 0;}
 .invalid-screen{display:none;text-align:center;padding:60px 20px;}
 .invalid-icon{font-size:48px;margin-bottom:20px;}
 .invalid-title{font-family:'Shippori Mincho B1',serif;font-size:20px;color:var(--ink);margin-bottom:12px;}
@@ -269,27 +270,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
   <div class="fortune-block" style="border-top:1px solid var(--border);">
     <div id="resMarkdown" class="md"></div>
   </div>
-  <div class="cosmos-block">
-    <div class="cosmos-label">Celestial Movement</div>
-    <div class="cosmos-text" id="resCosmos"></div>
-  </div>
-  <div class="action-block">
-    <div class="action-label">One Action for Today</div>
-    <div class="action-text" id="resAction"></div>
-  </div>
-  <div class="lucky-block">
-    <div class="lucky-label">Lucky for Today</div>
-    <div class="lucky-grid">
-      <div class="lucky-item">
-        <div class="lucky-item-label">Lucky Color</div>
-        <div class="lucky-item-value" id="resLuckyColor">—</div>
-      </div>
-      <div class="lucky-item">
-        <div class="lucky-item-label">Lucky Item</div>
-        <div class="lucky-item-value" id="resLuckyItem">—</div>
-      </div>
-    </div>
-  </div>
+
 </div>
 </div><!-- /mainContent -->
 
