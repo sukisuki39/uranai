@@ -44,6 +44,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
 .cta-wrap{margin:36px 0;}
 .cta-btn{width:100%;padding:20px;background:var(--ink);color:var(--cream);border:none;border-radius:4px;font-family:'Shippori Mincho B1',serif;font-size:15px;font-weight:600;letter-spacing:.22em;cursor:pointer;transition:background .3s;}
 .cta-btn:hover{background:var(--ink-mid);}
+.cta-btn:active{transform:scale(.995);}
 .cta-btn:disabled{background:var(--ink-pale);cursor:not-allowed;}
 .loading{display:none;padding:60px 0;text-align:center;}
 .loading-symbol{font-size:36px;display:block;margin-bottom:20px;animation:slowSpin 8s linear infinite;}
@@ -75,14 +76,22 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
 .lucky-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 .lucky-item{background:var(--petal-pale);border:1px solid var(--petal-light);border-radius:4px;padding:16px;text-align:center;}
 .lucky-item-label{font-size:9px;letter-spacing:.2em;color:var(--ink-soft);margin-bottom:8px;text-transform:uppercase;}
-.lucky-item-value{font-family:'Shippori Mincho B1',serif;font-size:15px;color:var(--ink);font-weight:800;}
-.used-msg{text-align:center;padding:60px 20px;}
-.used-msg .used-icon{font-size:48px;margin-bottom:20px;display:block;}
-.used-msg h2{font-family:'Shippori Mincho B1',serif;font-size:20px;color:var(--ink);margin-bottom:12px;}
-.used-msg p{font-size:13px;color:var(--ink-soft);line-height:2;}
+.lucky-item-value{font-family:'Shippori Mincho B1',serif;font-size:15px;color:var(--ink);font-weight:800;letter-spacing:.05em;}
 .footer{text-align:center;padding-top:40px;border-top:1px solid var(--border);margin-top:8px;}
-.footer-note{font-size:10px;color:var(--ink-pale);line-height:2.2;}
-.error-msg{background:#fff0f3;border:1px solid #f5c6cb;border-radius:4px;padding:16px 20px;font-size:13px;color:#842029;margin-top:16px;display:none;line-height:1.8;}
+.footer-note{font-size:10px;color:var(--ink-pale);line-height:2.2;letter-spacing:.05em;}
+.error-msg{background:#fff0f3;border:1px solid #f5c6cb;border-radius:4px;padding:16px 20px;font-size:13px;color:#842029;margin-top:16px;display:none;line-height:1.8;text-align:center;}
+.md h3{font-family:'Shippori Mincho B1',serif;font-size:14px;color:var(--gold);letter-spacing:.15em;margin:24px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--gold-light);}
+.md h3:first-child{margin-top:0;}
+.md p{font-size:14px;line-height:2.4;color:var(--ink-mid);font-weight:300;margin-bottom:12px;}
+.md ul{list-style:none;padding:0;margin:8px 0 16px;}
+.md ul li{font-size:13px;line-height:2;color:var(--ink-mid);padding:8px 12px;background:var(--petal-pale);border-left:3px solid var(--petal);margin-bottom:8px;border-radius:0 4px 4px 0;}
+.md strong{font-weight:600;color:var(--ink);}
+.md em{font-style:italic;color:var(--ink-soft);font-size:12px;line-height:1.8;display:block;margin-top:16px;padding:12px;background:rgba(26,18,24,0.04);border-radius:4px;}
+.md hr{border:none;border-top:1px solid var(--border);margin:20px 0;}
+.invalid-screen{display:none;text-align:center;padding:60px 20px;}
+.invalid-icon{font-size:48px;margin-bottom:20px;}
+.invalid-title{font-family:'Shippori Mincho B1',serif;font-size:20px;color:var(--ink);margin-bottom:12px;}
+.invalid-text{font-size:13px;color:var(--ink-soft);line-height:2;}
 @media(max-width:480px){.page{padding:0 16px 60px;}.header{padding:40px 0 32px;}.fortune-block,.catchcopy-block,.action-block,.lucky-block,.cosmos-block{padding:22px 18px;}}
 </style>
 </head>
@@ -135,20 +144,22 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
 
 <div class="page">
 
-<!-- 使用済み・無効メッセージ -->
-<div class="used-msg" id="usedMsg" style="display:none;">
-  <span class="used-icon">🔮</span>
-  <h2 id="usedTitle">このURLは使用済みです</h2>
-  <p id="usedDesc">鑑定はお一人様1回限りとなっております。<br>新たに鑑定をご希望の場合は、再度ご購入ください。</p>
+<!-- 無効トークン画面 -->
+<div class="invalid-screen" id="invalidScreen">
+  <div class="invalid-icon">🔮</div>
+  <div class="invalid-title" id="invalidTitle">このURLは使用済みです</div>
+  <div class="invalid-text" id="invalidText">鑑定は1回限りとなっております。<br>新しい鑑定をご希望の方は、<br>再度ご購入ください。</div>
 </div>
 
-<!-- メインコンテンツ -->
 <div id="mainContent">
-
 <header class="header">
   <div class="header-eyebrow">Daily Horoscope</div>
   <h1 class="header-title">星が、<br><em>あなたに語りかける。</em></h1>
-  <p class="header-desc">生年月日と占いたい日を入力するだけで<br>あなたの一日を心地よくサバイブするための<br>ピンポイント星占いをお届けします</p>
+  <p class="header-desc">
+    生年月日と占いたい日を入力するだけで<br>
+    あなたの一日を心地よくサバイブするための<br>
+    ピンポイント星占いをお届けします
+  </p>
 </header>
 
 <div class="form-section">
@@ -183,12 +194,24 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
   </div>
   <p class="category-sub">気になるカテゴリーをひとつ選んでください（任意）</p>
   <div class="category-grid">
-    <div class="category-btn" onclick="selectCategory(this,'総合運')"><span class="cat-icon">✦</span><span class="cat-name">総合運</span></div>
-    <div class="category-btn" onclick="selectCategory(this,'恋愛運')"><span class="cat-icon">💕</span><span class="cat-name">恋愛運</span></div>
-    <div class="category-btn" onclick="selectCategory(this,'仕事運')"><span class="cat-icon">💼</span><span class="cat-name">仕事運</span></div>
-    <div class="category-btn" onclick="selectCategory(this,'金運')"><span class="cat-icon">✨</span><span class="cat-name">金運</span></div>
-    <div class="category-btn" onclick="selectCategory(this,'健康運')"><span class="cat-icon">🌿</span><span class="cat-name">健康運</span></div>
-    <div class="category-btn" onclick="selectCategory(this,'人間関係')"><span class="cat-icon">🤝</span><span class="cat-name">人間関係</span></div>
+    <div class="category-btn" onclick="selectCategory(this,'総合運')">
+      <span class="cat-icon">✦</span><span class="cat-name">総合運</span>
+    </div>
+    <div class="category-btn" onclick="selectCategory(this,'恋愛運')">
+      <span class="cat-icon">💕</span><span class="cat-name">恋愛運</span>
+    </div>
+    <div class="category-btn" onclick="selectCategory(this,'仕事運')">
+      <span class="cat-icon">💼</span><span class="cat-name">仕事運</span>
+    </div>
+    <div class="category-btn" onclick="selectCategory(this,'金運')">
+      <span class="cat-icon">✨</span><span class="cat-name">金運</span>
+    </div>
+    <div class="category-btn" onclick="selectCategory(this,'健康運')">
+      <span class="cat-icon">🌿</span><span class="cat-name">健康運</span>
+    </div>
+    <div class="category-btn" onclick="selectCategory(this,'人間関係')">
+      <span class="cat-icon">🤝</span><span class="cat-name">人間関係</span>
+    </div>
   </div>
 </div>
 
@@ -242,7 +265,6 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
     </div>
   </div>
 </div>
-
 </div><!-- /mainContent -->
 
 <footer class="footer">
@@ -251,7 +273,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
 </div>
 
 <script>
-const WORKER_URL = 'https://uranai-worker.suukii01.workers.dev/';
+const WORKER_URL = 'https://uranai-worker.suukii01.workers.dev';
 
 const zodiacList=[
   {name:'山羊座',symbol:'♑',sm:12,sd:22,em:12,ed:31},
@@ -270,12 +292,64 @@ const zodiacList=[
 ];
 
 let selectedCategory='';
-let fortuneToken='';
+let currentToken='';
+
+// URLからトークンを取得
+function getTokenFromURL(){
+  const params=new URLSearchParams(window.location.search);
+  return params.get('token')||'';
+}
+
+// トークンを検証
+async function verifyToken(token){
+  try{
+    const res=await fetch(WORKER_URL+'/verify-token',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({token})
+    });
+    return await res.json();
+  }catch(e){
+    return {valid:false,reason:'error'};
+  }
+}
+
+// 初期化
+window.addEventListener('DOMContentLoaded',async()=>{
+  currentToken=getTokenFromURL();
+  if(!currentToken){
+    // トークンなし＝直接アクセス → そのまま表示（テスト用）
+    return;
+  }
+  // トークン検証
+  const result=await verifyToken(currentToken);
+  if(!result.valid){
+    document.getElementById('mainContent').style.display='none';
+    const screen=document.getElementById('invalidScreen');
+    screen.style.display='block';
+    const title=document.getElementById('invalidTitle');
+    const text=document.getElementById('invalidText');
+    if(result.reason==='used'){
+      title.textContent='このURLはすでに使用済みです';
+      text.innerHTML='鑑定は1回限りとなっております。<br>新しい鑑定をご希望の方は、<br>再度ご購入ください。';
+    } else if(result.reason==='expired'){
+      title.textContent='このURLは有効期限切れです';
+      text.innerHTML='URLの有効期限（24時間）が過ぎています。<br>再度ご購入ください。';
+    } else {
+      title.textContent='このURLは無効です';
+      text.innerHTML='正しいURLをご確認ください。';
+    }
+  }
+});
 
 function selectCategory(el,name){
   document.querySelectorAll('.category-btn').forEach(b=>b.classList.remove('selected'));
-  if(selectedCategory===name){ selectedCategory=''; }
-  else { el.classList.add('selected'); selectedCategory=name; }
+  if(selectedCategory===name){
+    selectedCategory='';
+  } else {
+    el.classList.add('selected');
+    selectedCategory=name;
+  }
 }
 
 function getZodiac(m,d){
@@ -303,42 +377,6 @@ function showError(msg){
   el.style.display='block';
 }
 
-function showUsed(reason){
-  document.getElementById('mainContent').style.display='none';
-  document.getElementById('usedMsg').style.display='block';
-  if(reason==='used'){
-    document.getElementById('usedTitle').textContent='このURLはすでに使用済みです';
-    document.getElementById('usedDesc').textContent='鑑定はお一人様1回限りとなっております。\n新たに鑑定をご希望の場合は、再度ご購入ください。';
-  } else if(reason==='expired'){
-    document.getElementById('usedTitle').textContent='このURLは有効期限切れです';
-    document.getElementById('usedDesc').textContent='URLの有効期限（24時間）が過ぎています。\n新たに鑑定をご希望の場合は、再度ご購入ください。';
-  } else if(reason==='invalid'){
-    document.getElementById('usedTitle').textContent='このURLは無効です';
-    document.getElementById('usedDesc').textContent='正しいURLからアクセスしてください。';
-  }
-}
-
-// URLからトークンを取得
-window.addEventListener('DOMContentLoaded', async () => {
-  const params = new URLSearchParams(window.location.search);
-  fortuneToken = params.get('token') || '';
-
-  if(fortuneToken){
-    // トークンの有効性を事前確認
-    try{
-      const res = await fetch(WORKER_URL + 'verify-token', {
-        method: 'POST',
-        headers: {'Content-Type':'application/json'},
-        body: JSON.stringify({token: fortuneToken})
-      });
-      const data = await res.json();
-      if(!data.valid){
-        showUsed(data.reason);
-      }
-    } catch(e){ /* ネットワークエラーは無視して続行 */ }
-  }
-});
-
 async function startFortune(){
   const name=document.getElementById('nameInput').value.trim();
   const dob=document.getElementById('dobInput').value;
@@ -346,10 +384,6 @@ async function startFortune(){
   document.getElementById('errorMsg').style.display='none';
   if(!name){alert('ニックネームをご入力ください');return;}
   if(!dob){alert('生年月日をご入力ください');return;}
-  if(!fortuneToken){
-    showError('有効な鑑定URLからアクセスしてください。カラーミーショップで購入後に届くURLをご利用ください。');
-    return;
-  }
 
   document.getElementById('result').style.display='none';
   document.getElementById('loading').style.display='block';
@@ -364,17 +398,25 @@ async function startFortune(){
   const category=selectedCategory||'総合運';
 
   try{
-    const res=await fetch(WORKER_URL,{
+    const res=await fetch(WORKER_URL+'/',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({name,zodiac:zodiac.name,zodiacSymbol:zodiac.symbol,lifeNum,birthYear:y,birthMonth:m,birthDay:d,todayStr,category,token:fortuneToken})
+      body:JSON.stringify({
+        name,zodiac:zodiac.name,zodiacSymbol:zodiac.symbol,
+        lifeNum,birthYear:y,birthMonth:m,birthDay:d,
+        todayStr,category,token:currentToken
+      })
     });
 
     const f=await res.json();
 
     if(!res.ok){
+      // 使用済みエラーの場合は無効画面を表示
       if(f.error&&(f.error.includes('使用済み')||f.error.includes('無効')||f.error.includes('有効期限'))){
-        showUsed(f.error.includes('使用済み')?'used':f.error.includes('有効期限')?'expired':'invalid');
+        document.getElementById('loading').style.display='none';
+        document.getElementById('mainContent').style.display='none';
+        document.getElementById('invalidScreen').style.display='block';
+        document.getElementById('invalidTitle').textContent=f.error;
         return;
       }
       throw new Error(f.error||`HTTP ${res.status}`);
@@ -385,23 +427,37 @@ async function startFortune(){
     document.getElementById('resSignName').textContent=zodiac.name;
     document.getElementById('resPerson').textContent=name+' さんへ';
     document.getElementById('resCategoryBadge').textContent='✦ '+category;
-    document.getElementById('resCatchcopy').textContent=f.catchcopy;
-    document.getElementById('resFortune').textContent=f.fortune;
-    document.getElementById('resCosmos').textContent=f.cosmos||'';
-    document.getElementById('resAction').textContent=f.action;
-    document.getElementById('resLuckyColor').textContent=f.luckyColor||'—';
-    document.getElementById('resLuckyItem').textContent=f.luckyItem||'—';
+    // Markdownをシンプルなレンダリング
+    const md = f.markdown||'';
+    document.getElementById('resMarkdown').className='md';
+    document.getElementById('resMarkdown').innerHTML = md
+      .replace(/---/g,'<hr>')
+      .replace(/### (.+)/g,'<h3>$1</h3>')
+      .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+      .replace(/\*(.+?)\*/g,'<em>$1</em>')
+      .replace(/^\* (.+)$/gm,'<li>$1</li>')
+      .replace(/(<li>.*<\/li>)/gs, '<ul>$1</ul>')
+      .replace(/
+
+/g,'</p><p>')
+      .replace(/^(?!<[huepl])(.+)$/gm,'<p>$1</p>')
+      .replace(/<p><\/p>/g,'')
+      .replace(/<p>(<h|<hr|<ul)/g,'$1')
+      .replace(/(<\/h3>|<\/ul>|<hr>)<\/p>/g,'$1');
 
     document.getElementById('loading').style.display='none';
     document.getElementById('result').style.display='block';
+    // 占い完了後はボタンを無効化（再利用防止）
+    document.getElementById('fortuneBtn').disabled=true;
+    document.getElementById('fortuneBtn').textContent='鑑定完了';
     setTimeout(()=>window.scrollTo({top:document.getElementById('result').offsetTop-20,behavior:'smooth'}),100);
 
   }catch(e){
     document.getElementById('loading').style.display='none';
     showError('鑑定中にエラーが発生しました。しばらくしてからもう一度お試しください。');
+    document.getElementById('fortuneBtn').disabled=false;
     console.error(e);
   }
-  document.getElementById('fortuneBtn').disabled=false;
 }
 </script>
 </body>
