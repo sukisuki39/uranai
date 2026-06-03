@@ -411,11 +411,9 @@ function selectGender(g){
   document.querySelectorAll('.gender-btn').forEach(b=>b.classList.remove('selected'));
   selectedGender=g;
   document.getElementById(
-    g==='female'?'genderFemale':g==='male'?'genderMale':'genderNone'
+    g==='female'?'genderFemale':g==='male'?'genderMale':'btnNoGender'
   ).classList.add('selected');
 }
-
-let selectedGender='';
 
 function selectGender(el,gender){
   document.getElementById('btnFemale').classList.remove('selected');
