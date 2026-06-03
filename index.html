@@ -32,28 +32,22 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
 .form-input:focus{border-color:var(--petal);box-shadow:0 0 0 3px rgba(212,160,181,.15);}
 .form-input::placeholder{color:var(--ink-pale);}
 .form-note{font-size:10px;color:var(--ink-pale);margin-top:6px;line-height:1.8;}
-.gender-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
-.gender-btn{padding:12px 8px;background:var(--white);border:1px solid var(--border);border-radius:4px;font-family:'Noto Sans JP',sans-serif;font-size:13px;color:var(--ink-soft);cursor:pointer;transition:all .2s;text-align:center;-webkit-appearance:none;appearance:none;}
-.gender-btn.selected{background:var(--ink);border-color:var(--ink);color:var(--cream);}
-.gender-btn:hover:not(.selected){border-color:var(--petal);color:var(--ink);}
 .dob-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:8px;}
-.date-toggle{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-.date-toggle-btn{padding:14px 8px;background:var(--white);border:1px solid var(--border);border-radius:4px;font-family:'Noto Sans JP',sans-serif;font-size:13px;color:var(--ink-soft);cursor:pointer;transition:all .2s;text-align:center;}
-.date-toggle-btn.selected{background:var(--ink);border-color:var(--ink);color:var(--cream);}
-.date-toggle-btn:hover:not(.selected){border-color:var(--petal);color:var(--ink);}
-.category-section{margin-bottom:32px;}
-.category-title{font-family:'Shippori Mincho B1',serif;font-size:13px;color:var(--ink-mid);letter-spacing:.08em;margin-bottom:6px;}
-.category-sub{font-size:10px;color:var(--ink-pale);margin-bottom:14px;line-height:1.8;}
+.toggle-grid{display:grid;gap:8px;}
+.toggle-grid-2{grid-template-columns:1fr 1fr;}
+.toggle-grid-3{grid-template-columns:1fr 1fr 1fr;}
+.toggle-btn{padding:12px 8px;background:var(--white);border:1px solid var(--border);border-radius:4px;font-family:'Noto Sans JP',sans-serif;font-size:12px;color:var(--ink-soft);cursor:pointer;transition:all .2s;text-align:center;-webkit-appearance:none;appearance:none;}
+.toggle-btn .icon{display:block;font-size:18px;margin-bottom:4px;}
+.toggle-btn.selected{background:var(--ink);border-color:var(--ink);color:var(--cream);}
+.toggle-btn:hover:not(.selected){border-color:var(--petal);color:var(--ink);}
 .category-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
-@media(max-width:400px){.category-grid{grid-template-columns:repeat(2,1fr);}}
-.category-btn{position:relative;padding:12px 8px;background:var(--white);border:1px solid var(--border);border-radius:4px;font-family:'Noto Sans JP',sans-serif;font-size:12px;color:var(--ink-soft);cursor:pointer;transition:all .2s;text-align:center;user-select:none;-webkit-appearance:none;appearance:none;}
-.category-btn .cat-icon{display:block;font-size:20px;margin-bottom:4px;}
-.category-btn .cat-name{display:block;letter-spacing:.05em;}
-.category-btn.selected{background:var(--ink);border-color:var(--ink);color:var(--cream);}
+.cat-btn{padding:12px 8px;background:var(--white);border:1px solid var(--border);border-radius:4px;font-family:'Noto Sans JP',sans-serif;font-size:12px;color:var(--ink-soft);cursor:pointer;transition:all .2s;text-align:center;-webkit-appearance:none;appearance:none;}
+.cat-btn .cat-icon{display:block;font-size:20px;margin-bottom:4px;}
+.cat-btn.selected{background:var(--ink);border-color:var(--ink);color:var(--cream);}
+.cat-btn:hover:not(.selected){border-color:var(--petal);color:var(--ink);}
 .cta-wrap{margin:36px 0;}
-.cta-btn{width:100%;padding:20px;background:var(--ink);color:var(--cream);border:none;border-radius:4px;font-family:'Shippori Mincho B1',serif;font-size:15px;font-weight:600;letter-spacing:.22em;cursor:pointer;transition:background .3s;}
+.cta-btn{width:100%;padding:20px;background:var(--ink);color:var(--cream);border:none;border-radius:4px;font-family:'Shippori Mincho B1',serif;font-size:15px;font-weight:600;letter-spacing:.22em;cursor:pointer;transition:background .3s;-webkit-appearance:none;appearance:none;}
 .cta-btn:hover{background:var(--ink-mid);}
-.cta-btn:active{transform:scale(.995);}
 .cta-btn:disabled{background:var(--ink-pale);cursor:not-allowed;}
 .loading{display:none;padding:60px 0;text-align:center;}
 .loading-symbol{font-size:36px;display:block;margin-bottom:20px;animation:slowSpin 8s linear infinite;}
@@ -68,27 +62,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
 .result-sign-name{font-family:'Shippori Mincho B1',serif;font-size:18px;color:var(--ink-mid);letter-spacing:.08em;}
 .result-person{font-family:'Shippori Mincho B1',serif;font-size:22px;color:var(--ink);font-weight:800;letter-spacing:.05em;margin-bottom:8px;}
 .result-category-badge{display:inline-block;background:var(--petal-pale);border:1px solid var(--petal-light);border-radius:20px;padding:4px 16px;font-size:11px;color:var(--ink-soft);letter-spacing:.1em;}
-.catchcopy-block{background:var(--ink);color:var(--cream);padding:32px 28px;margin-bottom:2px;text-align:center;}
-.catchcopy-label{font-size:9px;letter-spacing:.35em;color:var(--gold-light);margin-bottom:14px;text-transform:uppercase;}
-.catchcopy-text{font-family:'Shippori Mincho B1',serif;font-size:clamp(17px,4.5vw,24px);font-weight:800;line-height:1.5;letter-spacing:.08em;color:var(--white);}
-.fortune-block{background:var(--white);border:1px solid var(--border);border-top:none;padding:32px 28px;margin-bottom:2px;}
-.fortune-label{font-size:9px;letter-spacing:.35em;color:var(--petal);margin-bottom:16px;text-transform:uppercase;}
-.fortune-text{font-size:14px;line-height:2.4;color:var(--ink-mid);font-weight:300;}
-.cosmos-block{background:rgba(26,18,24,0.04);border:1px solid var(--border);border-top:none;padding:20px 28px;margin-bottom:2px;}
-.cosmos-label{font-size:9px;letter-spacing:.35em;color:var(--ink-pale);margin-bottom:10px;text-transform:uppercase;}
-.cosmos-text{font-size:12px;line-height:2;color:var(--ink-soft);font-style:italic;}
-.action-block{background:var(--gold-pale);border:1px solid var(--gold-light);border-top:none;padding:28px 28px;margin-bottom:2px;}
-.action-label{font-size:9px;letter-spacing:.35em;color:var(--gold);margin-bottom:12px;text-transform:uppercase;}
-.action-text{font-family:'Shippori Mincho B1',serif;font-size:15px;line-height:1.9;color:var(--ink);font-weight:600;letter-spacing:.04em;}
-.lucky-block{background:var(--white);border:1px solid var(--border);border-top:none;padding:28px 28px;margin-bottom:32px;}
-.lucky-label{font-size:9px;letter-spacing:.35em;color:var(--petal);margin-bottom:16px;text-transform:uppercase;}
-.lucky-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-.lucky-item{background:var(--petal-pale);border:1px solid var(--petal-light);border-radius:4px;padding:16px;text-align:center;}
-.lucky-item-label{font-size:9px;letter-spacing:.2em;color:var(--ink-soft);margin-bottom:8px;text-transform:uppercase;}
-.lucky-item-value{font-family:'Shippori Mincho B1',serif;font-size:15px;color:var(--ink);font-weight:800;letter-spacing:.05em;}
-.footer{text-align:center;padding-top:40px;border-top:1px solid var(--border);margin-top:8px;}
-.footer-note{font-size:10px;color:var(--ink-pale);line-height:2.2;letter-spacing:.05em;}
-.error-msg{background:#fff0f3;border:1px solid #f5c6cb;border-radius:4px;padding:16px 20px;font-size:13px;color:#842029;margin-top:16px;display:none;line-height:1.8;text-align:center;}
+.fortune-block{background:var(--white);border:1px solid var(--border);border-top:none;padding:32px 28px;margin-bottom:32px;}
 .md h3{font-family:'Shippori Mincho B1',serif;font-size:13px;color:var(--gold);letter-spacing:.2em;margin:28px 0 12px;padding:8px 14px;background:var(--gold-pale);border-left:3px solid var(--gold);border-radius:0 4px 4px 0;}
 .md h3:first-child{margin-top:0;}
 .md p{font-size:14px;line-height:2.4;color:var(--ink-mid);font-weight:300;margin-bottom:14px;}
@@ -98,15 +72,17 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
 .md strong{font-weight:600;color:var(--ink);}
 .md em{font-style:normal;color:var(--ink-soft);font-size:12px;line-height:1.9;display:block;margin-top:20px;padding:14px 16px;background:rgba(26,18,24,0.04);border-radius:4px;border-left:3px solid var(--border);}
 .md hr{border:none;border-top:1px solid var(--border);margin:24px 0;}
+.footer{text-align:center;padding-top:40px;border-top:1px solid var(--border);margin-top:8px;}
+.footer-note{font-size:10px;color:var(--ink-pale);line-height:2.2;letter-spacing:.05em;}
+.error-msg{background:#fff0f3;border:1px solid #f5c6cb;border-radius:4px;padding:16px 20px;font-size:13px;color:#842029;margin-top:16px;display:none;line-height:1.8;text-align:center;}
 .invalid-screen{display:none;text-align:center;padding:60px 20px;}
 .invalid-icon{font-size:48px;margin-bottom:20px;}
 .invalid-title{font-family:'Shippori Mincho B1',serif;font-size:20px;color:var(--ink);margin-bottom:12px;}
 .invalid-text{font-size:13px;color:var(--ink-soft);line-height:2;}
-@media(max-width:480px){.page{padding:0 16px 60px;}.header{padding:40px 0 32px;}.fortune-block,.catchcopy-block,.action-block,.lucky-block,.cosmos-block{padding:22px 18px;}}
+@media(max-width:480px){.page{padding:0 16px 60px;}.header{padding:40px 0 32px;}.fortune-block{padding:22px 18px;}.category-grid{grid-template-columns:repeat(2,1fr);}}
 </style>
 </head>
 <body>
-
 <div class="cosmos-bg">
 <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
   <circle cx="600" cy="400" r="40" fill="none" stroke="#7a5c4a" stroke-width="1.2"/>
@@ -117,7 +93,6 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
   <circle cx="600" cy="300" r="4" fill="#7a5c4a"/>
   <ellipse cx="600" cy="400" rx="220" ry="148" fill="none" stroke="#7a5c4a" stroke-width="0.7"/>
   <circle cx="820" cy="400" r="4.5" fill="#7a5c4a"/>
-  <circle cx="836" cy="385" r="2" fill="none" stroke="#7a5c4a" stroke-width="0.5"/>
   <ellipse cx="600" cy="400" rx="300" ry="200" fill="none" stroke="#7a5c4a" stroke-width="0.6" stroke-dasharray="8 5"/>
   <circle cx="600" cy="200" r="3.5" fill="#7a5c4a"/>
   <ellipse cx="600" cy="400" rx="420" ry="280" fill="none" stroke="#7a5c4a" stroke-width="0.5" stroke-dasharray="10 6"/>
@@ -125,24 +100,9 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
   <circle cx="178" cy="370" r="3" fill="#7a5c4a"/>
   <ellipse cx="600" cy="400" rx="530" ry="354" fill="none" stroke="#7a5c4a" stroke-width="0.5" stroke-dasharray="12 7"/>
   <circle cx="600" cy="46" r="6" fill="none" stroke="#7a5c4a" stroke-width="0.8"/>
-  <circle cx="600" cy="46" r="2.5" fill="#7a5c4a"/>
   <ellipse cx="600" cy="46" rx="14" ry="4" fill="none" stroke="#7a5c4a" stroke-width="0.8"/>
   <ellipse cx="600" cy="400" rx="620" ry="413" fill="none" stroke="#7a5c4a" stroke-width="0.4" stroke-dasharray="14 8"/>
   <ellipse cx="600" cy="400" rx="700" ry="466" fill="none" stroke="#7a5c4a" stroke-width="0.4" stroke-dasharray="16 9"/>
-  <line x1="50" y1="50" x2="120" y2="80" stroke="#7a5c4a" stroke-width="0.4"/>
-  <line x1="120" y1="80" x2="90" y2="140" stroke="#7a5c4a" stroke-width="0.4"/>
-  <line x1="90" y1="140" x2="160" y2="160" stroke="#7a5c4a" stroke-width="0.4"/>
-  <circle cx="50" cy="50" r="1.5" fill="#7a5c4a"/>
-  <circle cx="120" cy="80" r="1.5" fill="#7a5c4a"/>
-  <circle cx="90" cy="140" r="1.5" fill="#7a5c4a"/>
-  <circle cx="160" cy="160" r="1.5" fill="#7a5c4a"/>
-  <line x1="1050" y1="100" x2="1100" y2="60" stroke="#7a5c4a" stroke-width="0.4"/>
-  <line x1="1100" y1="60" x2="1150" y2="90" stroke="#7a5c4a" stroke-width="0.4"/>
-  <line x1="1150" y1="90" x2="1130" y2="140" stroke="#7a5c4a" stroke-width="0.4"/>
-  <circle cx="1050" cy="100" r="1.5" fill="#7a5c4a"/>
-  <circle cx="1100" cy="60" r="1.5" fill="#7a5c4a"/>
-  <circle cx="1150" cy="90" r="1.5" fill="#7a5c4a"/>
-  <circle cx="1130" cy="140" r="1.5" fill="#7a5c4a"/>
   <circle cx="200" cy="300" r="1" fill="#7a5c4a"/>
   <circle cx="350" cy="150" r="1.2" fill="#7a5c4a"/>
   <circle cx="900" cy="250" r="1" fill="#7a5c4a"/>
@@ -154,24 +114,20 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
 
 <div class="page">
 
-<!-- 無効トークン画面 -->
 <div class="invalid-screen" id="invalidScreen">
   <div class="invalid-icon">🔮</div>
   <div class="invalid-title" id="invalidTitle">このURLは使用済みです</div>
-  <div class="invalid-text" id="invalidText">鑑定は1回限りとなっております。<br>新しい鑑定をご希望の方は、<br>再度ご購入ください。</div>
+  <div class="invalid-text" id="invalidText">鑑定は1回限りとなっております。<br>新しい鑑定をご希望の方は、再度ご購入ください。</div>
 </div>
 
 <div id="mainContent">
 <header class="header">
   <div class="header-eyebrow">Daily Horoscope</div>
   <h1 class="header-title">星が、<br><em>あなたに語りかける。</em></h1>
-  <p class="header-desc">
-    生年月日と占いたい日を入力するだけで<br>
-    あなたの一日を心地よくサバイブするための<br>
-    ピンポイント星占いをお届けします
-  </p>
+  <p class="header-desc">生年月日を入力するだけで<br>あなたの占いたい日を心地よくサバイブするための<br>ピンポイント星占いをお届けします</p>
 </header>
 
+<!-- ニックネーム -->
 <div class="form-section">
   <div class="form-label-row">
     <span class="form-label">ニックネーム</span>
@@ -180,50 +136,51 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
   <input class="form-input" type="text" id="nameInput" placeholder="はな" />
 </div>
 
-<div class="form-section">
-  <div class="form-label-row">
-    <span class="form-label">性別</span>
-    <span class="form-label-sub">任意・鑑定の精度向上に使用</span>
-  </div>
-  <div class="gender-grid">
-    <button type="button" class="gender-btn" id="genderNone" onclick="selectGender('none')">選択しない</button>
-    <button type="button" class="gender-btn" id="genderFemale" onclick="selectGender('female')">女性</button>
-    <button type="button" class="gender-btn" id="genderMale" onclick="selectGender('male')">男性</button>
-  </div>
-</div>
-
+<!-- 生年月日 -->
 <div class="form-section">
   <div class="form-label-row">
     <span class="form-label">生年月日</span>
     <span class="form-label-sub">星座・数秘術ナンバーの算出に使用</span>
   </div>
   <div class="dob-grid">
-    <select class="form-input" id="dobYear">
-      <option value="">年</option>
-    </select>
-    <select class="form-input" id="dobMonth">
-      <option value="">月</option>
-    </select>
-    <select class="form-input" id="dobDay">
-      <option value="">日</option>
-    </select>
+    <select class="form-input" id="dobYear"><option value="">年</option></select>
+    <select class="form-input" id="dobMonth"><option value="">月</option></select>
+    <select class="form-input" id="dobDay"><option value="">日</option></select>
   </div>
   <p class="form-note">※生年月日は鑑定のみに使用し、保存・記録はしません。</p>
 </div>
 
+<!-- 性別 -->
+<div class="form-section">
+  <div class="form-label-row">
+    <span class="form-label">性別</span>
+    <span class="form-label-sub">選択しない場合も鑑定できます</span>
+  </div>
+  <div class="toggle-grid toggle-grid-3">
+    <button type="button" class="toggle-btn" id="btnFemale" onclick="selectGender('女性')">
+      <span class="icon">👩</span>女性
+    </button>
+    <button type="button" class="toggle-btn" id="btnMale" onclick="selectGender('男性')">
+      <span class="icon">👨</span>男性
+    </button>
+    <button type="button" class="toggle-btn selected" id="btnNoGender" onclick="selectGender('')">
+      <span class="icon">✦</span>選択しない
+    </button>
+  </div>
+</div>
+
+<!-- 占いたい日 -->
 <div class="form-section">
   <div class="form-label-row">
     <span class="form-label">占いたい日</span>
     <span class="form-label-sub">選択してください</span>
   </div>
-  <div class="date-toggle">
-    <button type="button" class="date-toggle-btn selected" id="btnToday" onclick="selectDateMode('today')">
-      <span style="font-size:18px;display:block;margin-bottom:4px;">📅</span>
-      今日
+  <div class="toggle-grid toggle-grid-2">
+    <button type="button" class="toggle-btn selected" id="btnToday" onclick="selectDateMode('today')">
+      <span class="icon">📅</span>今日
     </button>
-    <button type="button" class="date-toggle-btn" id="btnOther" onclick="selectDateMode('other')">
-      <span style="font-size:18px;display:block;margin-bottom:4px;">🗓️</span>
-      別の日を指定
+    <button type="button" class="toggle-btn" id="btnOther" onclick="selectDateMode('other')">
+      <span class="icon">🗓️</span>別の日を指定
     </button>
   </div>
   <div id="otherDateWrap" style="display:none;margin-top:10px;">
@@ -231,57 +188,36 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
   </div>
 </div>
 
+<!-- カテゴリー -->
 <div class="form-section">
-  <div class="form-label-row">
-    <span class="form-label">性別</span>
-    <span class="form-label-sub">選択しない場合も鑑定できます</span>
-  </div>
-  <div class="date-toggle" style="grid-template-columns:1fr 1fr 1fr;">
-    <button type="button" class="date-toggle-btn" id="btnFemale" onclick="selectGender(this,'女性')">
-      <span style="font-size:18px;display:block;margin-bottom:4px;">👩</span>
-      女性
-    </button>
-    <button type="button" class="date-toggle-btn" id="btnMale" onclick="selectGender(this,'男性')">
-      <span style="font-size:18px;display:block;margin-bottom:4px;">👨</span>
-      男性
-    </button>
-    <button type="button" class="date-toggle-btn selected" id="btnNoGender" onclick="selectGender(this,'')">
-      <span style="font-size:18px;display:block;margin-bottom:4px;">✦</span>
-      選択しない
-    </button>
-  </div>
-</div>
-
-<div class="category-section">
   <div class="form-label-row">
     <span class="form-label">鑑定カテゴリー</span>
     <span class="form-label-sub">選択しない場合は総合運を鑑定します</span>
   </div>
-  <p class="category-sub">気になるカテゴリーをひとつ選んでください（任意）</p>
-  <div class="category-grid" id="categoryGrid">
-    <button type="button" class="category-btn" onclick="selectCategory(this,'総合運')">
-      <span class="cat-icon">✦</span><span class="cat-name">総合運</span>
+  <div class="category-grid">
+    <button type="button" class="cat-btn" id="cat総合運" onclick="selectCategory('総合運')">
+      <span class="cat-icon">✦</span>総合運
     </button>
-    <button type="button" class="category-btn" onclick="selectCategory(this,'恋愛運')">
-      <span class="cat-icon">💕</span><span class="cat-name">恋愛運</span>
+    <button type="button" class="cat-btn" id="cat恋愛運" onclick="selectCategory('恋愛運')">
+      <span class="cat-icon">💕</span>恋愛運
     </button>
-    <button type="button" class="category-btn" onclick="selectCategory(this,'仕事運')">
-      <span class="cat-icon">💼</span><span class="cat-name">仕事運</span>
+    <button type="button" class="cat-btn" id="cat仕事運" onclick="selectCategory('仕事運')">
+      <span class="cat-icon">💼</span>仕事運
     </button>
-    <button type="button" class="category-btn" onclick="selectCategory(this,'金運')">
-      <span class="cat-icon">✨</span><span class="cat-name">金運</span>
+    <button type="button" class="cat-btn" id="cat金運" onclick="selectCategory('金運')">
+      <span class="cat-icon">✨</span>金運
     </button>
-    <button type="button" class="category-btn" onclick="selectCategory(this,'健康運')">
-      <span class="cat-icon">🌿</span><span class="cat-name">健康運</span>
+    <button type="button" class="cat-btn" id="cat健康運" onclick="selectCategory('健康運')">
+      <span class="cat-icon">🌿</span>健康運
     </button>
-    <button type="button" class="category-btn" onclick="selectCategory(this,'人間関係')">
-      <span class="cat-icon">🤝</span><span class="cat-name">人間関係</span>
+    <button type="button" class="cat-btn" id="cat人間関係" onclick="selectCategory('人間関係')">
+      <span class="cat-icon">🤝</span>人間関係
     </button>
   </div>
 </div>
 
 <div class="cta-wrap">
-  <button class="cta-btn" id="fortuneBtn" onclick="startFortune()">星に問いかける</button>
+  <button type="button" class="cta-btn" id="fortuneBtn" onclick="startFortune()">星に問いかける</button>
 </div>
 <div class="error-msg" id="errorMsg"></div>
 
@@ -300,16 +236,11 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
     <div class="result-person" id="resPerson"></div>
     <div class="result-category-badge" id="resCategoryBadge"></div>
   </div>
-  <div class="catchcopy-block">
-    <div class="catchcopy-label">Today's Message</div>
-    <div class="catchcopy-text" id="resCatchcopy"></div>
-  </div>
-  <div class="fortune-block" style="border-top:1px solid var(--border);">
+  <div class="fortune-block">
     <div id="resMarkdown" class="md"></div>
   </div>
-
 </div>
-</div><!-- /mainContent -->
+</div>
 
 <footer class="footer">
   <p class="footer-note">本コンテンツはエンターテインメントを目的としています。<br>重要なご判断は専門家にご相談ください。</p>
@@ -317,9 +248,12 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
 </div>
 
 <script>
-const WORKER_URL = 'https://uranai-worker.suukii01.workers.dev';
+var WORKER_URL='https://uranai-worker.suukii01.workers.dev';
+var selectedGender='';
+var selectedCategory='';
+var currentToken='';
 
-const zodiacList=[
+var zodiacList=[
   {name:'山羊座',symbol:'♑',sm:12,sd:22,em:12,ed:31},
   {name:'山羊座',symbol:'♑',sm:1,sd:1,em:1,ed:19},
   {name:'水瓶座',symbol:'♒',sm:1,sd:20,em:2,ed:18},
@@ -335,92 +269,36 @@ const zodiacList=[
   {name:'射手座',symbol:'♐',sm:11,sd:23,em:12,ed:21},
 ];
 
-let selectedCategory='';
-let selectedGender='';
-let currentToken='';
-
-// URLからトークンを取得
-function getTokenFromURL(){
-  const params=new URLSearchParams(window.location.search);
-  return params.get('token')||'';
+function getZodiac(m,d){
+  for(var i=0;i<zodiacList.length;i++){
+    var z=zodiacList[i];
+    if((m===z.sm&&d>=z.sd)||(m===z.em&&d<=z.ed))return z;
+  }
+  return zodiacList[0];
 }
 
-// トークンを検証
-async function verifyToken(token){
-  try{
-    const res=await fetch(WORKER_URL+'/verify-token',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({token})
-    });
-    return await res.json();
-  }catch(e){
-    return {valid:false,reason:'error'};
+function getLifeNumber(y,m,d){
+  var s=(String(y)+String(m)+String(d)).split('').reduce(function(a,c){return a+parseInt(c);},0);
+  while(s>9&&s!==11&&s!==22){
+    s=String(s).split('').reduce(function(a,c){return a+parseInt(c);},0);
   }
+  return s;
 }
 
-// 初期化
-window.addEventListener('DOMContentLoaded',async()=>{
-  currentToken=getTokenFromURL();
-  // 生年月日セレクトボックスの初期化
-  const yearSel=document.getElementById('dobYear');
-  const now=new Date().getFullYear();
-  for(let y=now;y>=1930;y--){
-    const opt=document.createElement('option');
-    opt.value=y;opt.textContent=y+'年';
-    yearSel.appendChild(opt);
-  }
-  const monthSel=document.getElementById('dobMonth');
-  for(let m=1;m<=12;m++){
-    const opt=document.createElement('option');
-    opt.value=m;opt.textContent=m+'月';
-    monthSel.appendChild(opt);
-  }
-  const daySel=document.getElementById('dobDay');
-  for(let d=1;d<=31;d++){
-    const opt=document.createElement('option');
-    opt.value=d;opt.textContent=d+'日';
-    daySel.appendChild(opt);
-  }
-  if(!currentToken){
-    // トークンなし＝直接アクセス → そのまま表示（テスト用）
-    return;
-  }
-  // トークン検証
-  const result=await verifyToken(currentToken);
-  if(!result.valid){
-    document.getElementById('mainContent').style.display='none';
-    const screen=document.getElementById('invalidScreen');
-    screen.style.display='block';
-    const title=document.getElementById('invalidTitle');
-    const text=document.getElementById('invalidText');
-    if(result.reason==='used'){
-      title.textContent='このURLはすでに使用済みです';
-      text.innerHTML='鑑定は1回限りとなっております。<br>新しい鑑定をご希望の方は、<br>再度ご購入ください。';
-    } else if(result.reason==='expired'){
-      title.textContent='このURLは有効期限切れです';
-      text.innerHTML='URLの有効期限（24時間）が過ぎています。<br>再度ご購入ください。';
-    } else {
-      title.textContent='このURLは無効です';
-      text.innerHTML='正しいURLをご確認ください。';
-    }
-  }
-});
-
-function selectGender(g){
-  document.querySelectorAll('.gender-btn').forEach(b=>b.classList.remove('selected'));
-  selectedGender=g;
-  document.getElementById(
-    g==='female'?'genderFemale':g==='male'?'genderMale':'btnNoGender'
-  ).classList.add('selected');
+function formatDateJP(dateStr){
+  var t=dateStr?new Date(dateStr):new Date();
+  var wd=['日','月','火','水','木','金','土'];
+  return t.getFullYear()+'年'+(t.getMonth()+1)+'月'+t.getDate()+'日（'+wd[t.getDay()]+'）';
 }
 
-function selectGender(el,gender){
+function selectGender(gender){
+  selectedGender=gender;
   document.getElementById('btnFemale').classList.remove('selected');
   document.getElementById('btnMale').classList.remove('selected');
   document.getElementById('btnNoGender').classList.remove('selected');
-  el.classList.add('selected');
-  selectedGender=gender;
+  if(gender==='女性')document.getElementById('btnFemale').classList.add('selected');
+  else if(gender==='男性')document.getElementById('btnMale').classList.add('selected');
+  else document.getElementById('btnNoGender').classList.add('selected');
 }
 
 function selectDateMode(mode){
@@ -436,83 +314,162 @@ function selectDateMode(mode){
   }
 }
 
-function selectCategory(el,name){
-  document.querySelectorAll('.category-btn').forEach(b=>b.classList.remove('selected'));
+function selectCategory(name){
+  var btns=['cat総合運','cat恋愛運','cat仕事運','cat金運','cat健康運','cat人間関係'];
+  for(var i=0;i<btns.length;i++){
+    document.getElementById(btns[i]).classList.remove('selected');
+  }
   if(selectedCategory===name){
     selectedCategory='';
   } else {
-    el.classList.add('selected');
     selectedCategory=name;
+    document.getElementById('cat'+name).classList.add('selected');
   }
 }
 
-function getZodiac(m,d){
-  for(const z of zodiacList){
-    if((m===z.sm&&d>=z.sd)||(m===z.em&&d<=z.ed))return z;
+function getTokenFromURL(){
+  var params=new URLSearchParams(window.location.search);
+  return params.get('token')||'';
+}
+
+async function verifyToken(token){
+  try{
+    var res=await fetch(WORKER_URL+'/verify-token',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({token:token})
+    });
+    return await res.json();
+  }catch(e){return {valid:false,reason:'error'};}
+}
+
+function showInvalidScreen(title,text){
+  document.getElementById('mainContent').style.display='none';
+  document.getElementById('invalidScreen').style.display='block';
+  document.getElementById('invalidTitle').textContent=title;
+  document.getElementById('invalidText').innerHTML=text;
+}
+
+window.addEventListener('DOMContentLoaded',async function(){
+  // 生年月日セレクトボックス初期化
+  var yearSel=document.getElementById('dobYear');
+  var now=new Date().getFullYear();
+  for(var y=now;y>=1930;y--){
+    var opt=document.createElement('option');
+    opt.value=y;opt.textContent=y+'年';
+    yearSel.appendChild(opt);
   }
-  return zodiacList[0];
-}
+  var monthSel=document.getElementById('dobMonth');
+  for(var m=1;m<=12;m++){
+    var opt2=document.createElement('option');
+    opt2.value=m;opt2.textContent=m+'月';
+    monthSel.appendChild(opt2);
+  }
+  var daySel=document.getElementById('dobDay');
+  for(var d=1;d<=31;d++){
+    var opt3=document.createElement('option');
+    opt3.value=d;opt3.textContent=d+'日';
+    daySel.appendChild(opt3);
+  }
 
-function getLifeNumber(y,m,d){
-  let s=[...String(y),...String(m),...String(d)].reduce((a,c)=>a+parseInt(c),0);
-  while(s>9&&s!==11&&s!==22)s=[...String(s)].reduce((a,c)=>a+parseInt(c),0);
-  return s;
-}
+  // トークン検証
+  currentToken=getTokenFromURL();
+  if(currentToken){
+    var result=await verifyToken(currentToken);
+    if(!result.valid){
+      var title='このURLは無効です';
+      var text='正しいURLをご確認ください。';
+      if(result.reason==='used'){title='このURLはすでに使用済みです';text='鑑定は1回限りとなっております。<br>新しい鑑定をご希望の方は、再度ご購入ください。';}
+      else if(result.reason==='expired'){title='このURLは有効期限切れです';text='URLの有効期限（24時間）が過ぎています。<br>再度ご購入ください。';}
+      showInvalidScreen(title,text);
+    }
+  }
+});
 
-function formatDateJP(dateStr){
-  const t=dateStr?new Date(dateStr):new Date();
-  const wd=['日','月','火','水','木','金','土'];
-  return `${t.getFullYear()}年${t.getMonth()+1}月${t.getDate()}日（${wd[t.getDay()]}）`;
-}
-
-function showError(msg){
-  const el=document.getElementById('errorMsg');
-  el.textContent=msg;
-  el.style.display='block';
+function renderMarkdown(text){
+  var lines=text.split('\n');
+  var html='';
+  var inList=false;
+  for(var i=0;i<lines.length;i++){
+    var line=lines[i];
+    if(line==='---'){
+      if(inList){html+='</ul>';inList=false;}
+      html+='<hr>';
+    } else if(line.indexOf('### ')===0){
+      if(inList){html+='</ul>';inList=false;}
+      html+='<h3>'+line.replace('### ','')+'</h3>';
+    } else if(line.indexOf('* ')===0){
+      if(!inList){html+='<ul>';inList=true;}
+      var li=line.replace('* ','');
+      li=li.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');
+      html+='<li>'+li+'</li>';
+    } else if(line.trim()===''){
+      if(inList){html+='</ul>';inList=false;}
+    } else {
+      if(inList){html+='</ul>';inList=false;}
+      var p=line.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');
+      p=p.replace(/\*([^*]+)\*/g,'<em>$1</em>');
+      html+='<p>'+p+'</p>';
+    }
+  }
+  if(inList)html+='</ul>';
+  return html;
 }
 
 async function startFortune(){
-  const name=document.getElementById('nameInput').value.trim();
-  const fortuneDate=document.getElementById('fortuneDateInput').value;
+  var name=document.getElementById('nameInput').value.trim();
+  var dobY=document.getElementById('dobYear').value;
+  var dobM=document.getElementById('dobMonth').value;
+  var dobD=document.getElementById('dobDay').value;
+  var fortuneDateEl=document.getElementById('fortuneDateInput');
+  var fortuneDate=fortuneDateEl?fortuneDateEl.value:'';
+
   document.getElementById('errorMsg').style.display='none';
   if(!name){alert('ニックネームをご入力ください');return;}
+  if(!dobY||!dobM||!dobD){alert('生年月日をすべて選択してください');return;}
+
+  var y=parseInt(dobY);
+  var m=parseInt(dobM);
+  var d=parseInt(dobD);
+  var zodiac=getZodiac(m,d);
+  var lifeNum=getLifeNumber(y,m,d);
+  var targetDate=fortuneDate?new Date(fortuneDate):new Date();
+  var todayStr=targetDate.getFullYear()+'年'+(targetDate.getMonth()+1)+'月'+targetDate.getDate()+'日';
+  var category=selectedCategory||'総合運';
+
   document.getElementById('result').style.display='none';
   document.getElementById('loading').style.display='block';
   document.getElementById('fortuneBtn').disabled=true;
   window.scrollTo({top:document.getElementById('loading').offsetTop-40,behavior:'smooth'});
 
-  const y=parseInt(document.getElementById('dobYear').value);
-  const m=parseInt(document.getElementById('dobMonth').value);
-  const d=parseInt(document.getElementById('dobDay').value);
-  const zodiac=getZodiac(m,d);
-  const lifeNum=getLifeNumber(y,m,d);
-  const targetDate=fortuneDate?new Date(fortuneDate):new Date();
-  const todayStr=`${targetDate.getFullYear()}年${targetDate.getMonth()+1}月${targetDate.getDate()}日`;
-  const category=selectedCategory||'総合運';
-
   try{
-    const res=await fetch(WORKER_URL+'/',{
+    var res=await fetch(WORKER_URL+'/',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
-        name,zodiac:zodiac.name,zodiacSymbol:zodiac.symbol,
-        lifeNum,birthYear:y,birthMonth:m,birthDay:d,
-        todayStr,category,gender:selectedGender,token:currentToken
+        name:name,
+        zodiac:zodiac.name,
+        zodiacSymbol:zodiac.symbol,
+        lifeNum:lifeNum,
+        birthYear:y,
+        birthMonth:m,
+        birthDay:d,
+        todayStr:todayStr,
+        category:category,
+        gender:selectedGender,
+        token:currentToken
       })
     });
 
-    const f=await res.json();
+    var f=await res.json();
 
     if(!res.ok){
-      // 使用済みエラーの場合は無効画面を表示
-      if(f.error&&(f.error.includes('使用済み')||f.error.includes('無効')||f.error.includes('有効期限'))){
+      if(f.error&&(f.error.indexOf('使用済み')>=0||f.error.indexOf('無効')>=0||f.error.indexOf('有効期限')>=0)){
         document.getElementById('loading').style.display='none';
-        document.getElementById('mainContent').style.display='none';
-        document.getElementById('invalidScreen').style.display='block';
-        document.getElementById('invalidTitle').textContent=f.error;
+        showInvalidScreen(f.error,'');
         return;
       }
-      throw new Error(f.error||`HTTP ${res.status}`);
+      throw new Error(f.error||'HTTP '+res.status);
     }
 
     document.getElementById('resDate').textContent=formatDateJP(fortuneDate);
@@ -520,54 +477,22 @@ async function startFortune(){
     document.getElementById('resSignName').textContent=zodiac.name;
     document.getElementById('resPerson').textContent=name+' さんへ';
     document.getElementById('resCategoryBadge').textContent='✦ '+category;
-    // Markdownをシンプルなレンダリング
-    const md = f.markdown||'';
-    document.getElementById('resMarkdown').className='md';
-    document.getElementById('resMarkdown').innerHTML = renderMarkdown(md);
+    document.getElementById('resMarkdown').innerHTML=renderMarkdown(f.markdown||'');
 
     document.getElementById('loading').style.display='none';
     document.getElementById('result').style.display='block';
-    // 占い完了後はボタンを無効化（再利用防止）
     document.getElementById('fortuneBtn').disabled=true;
     document.getElementById('fortuneBtn').textContent='鑑定完了';
-    setTimeout(()=>window.scrollTo({top:document.getElementById('result').offsetTop-20,behavior:'smooth'}),100);
+    setTimeout(function(){window.scrollTo({top:document.getElementById('result').offsetTop-20,behavior:'smooth'});},100);
 
   }catch(e){
     document.getElementById('loading').style.display='none';
-    showError('鑑定中にエラーが発生しました。しばらくしてからもう一度お試しください。');
+    var el=document.getElementById('errorMsg');
+    el.textContent='鑑定中にエラーが発生しました。しばらくしてからもう一度お試しください。';
+    el.style.display='block';
     document.getElementById('fortuneBtn').disabled=false;
     console.error(e);
   }
-}
-
-function renderMarkdown(text){
-  var lines = text.split('\n');
-  var html = '';
-  var inList = false;
-  for(var i=0;i<lines.length;i++){
-    var line = lines[i];
-    if(line === '---'){
-      if(inList){html+='</ul>';inList=false;}
-      html+='<hr>';
-    } else if(line.indexOf('### ') === 0){
-      if(inList){html+='</ul>';inList=false;}
-      html+='<h3>'+line.replace('### ','')+'</h3>';
-    } else if(line.indexOf('* ') === 0){
-      if(!inList){html+='<ul>';inList=true;}
-      var li = line.replace('* ','');
-      li = li.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');
-      html+='<li>'+li+'</li>';
-    } else if(line.trim() === ''){
-      if(inList){html+='</ul>';inList=false;}
-    } else {
-      if(inList){html+='</ul>';inList=false;}
-      var p = line.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');
-      p = p.replace(/\*([^*]+)\*/g,'<em>$1</em>');
-      html+='<p>'+p+'</p>';
-    }
-  }
-  if(inList)html+='</ul>';
-  return html;
 }
 </script>
 </body>
