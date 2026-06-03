@@ -32,12 +32,16 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
 .form-input:focus{border-color:var(--petal);box-shadow:0 0 0 3px rgba(212,160,181,.15);}
 .form-input::placeholder{color:var(--ink-pale);}
 .form-note{font-size:10px;color:var(--ink-pale);margin-top:6px;line-height:1.8;}
+.date-toggle{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.date-toggle-btn{padding:14px 8px;background:var(--white);border:1px solid var(--border);border-radius:4px;font-family:'Noto Sans JP',sans-serif;font-size:13px;color:var(--ink-soft);cursor:pointer;transition:all .2s;text-align:center;}
+.date-toggle-btn.selected{background:var(--ink);border-color:var(--ink);color:var(--cream);}
+.date-toggle-btn:hover:not(.selected){border-color:var(--petal);color:var(--ink);}
 .category-section{margin-bottom:32px;}
 .category-title{font-family:'Shippori Mincho B1',serif;font-size:13px;color:var(--ink-mid);letter-spacing:.08em;margin-bottom:6px;}
 .category-sub{font-size:10px;color:var(--ink-pale);margin-bottom:14px;line-height:1.8;}
 .category-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
 @media(max-width:400px){.category-grid{grid-template-columns:repeat(2,1fr);}}
-.category-btn{position:relative;padding:12px 8px;background:var(--white);border:1px solid var(--border);border-radius:4px;font-family:'Noto Sans JP',sans-serif;font-size:12px;color:var(--ink-soft);cursor:pointer;transition:all .2s;text-align:center;user-select:none;}
+.category-btn{position:relative;padding:12px 8px;background:var(--white);border:1px solid var(--border);border-radius:4px;font-family:'Noto Sans JP',sans-serif;font-size:12px;color:var(--ink-soft);cursor:pointer;transition:all .2s;text-align:center;user-select:none;-webkit-appearance:none;appearance:none;}
 .category-btn .cat-icon{display:block;font-size:20px;margin-bottom:4px;}
 .category-btn .cat-name{display:block;letter-spacing:.05em;}
 .category-btn.selected{background:var(--ink);border-color:var(--ink);color:var(--cream);}
@@ -182,9 +186,21 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
 <div class="form-section">
   <div class="form-label-row">
     <span class="form-label">占いたい日</span>
-    <span class="form-label-sub">空欄の場合は今日の日付で鑑定します</span>
+    <span class="form-label-sub">選択してください</span>
   </div>
-  <input class="form-input" type="date" id="fortuneDateInput" />
+  <div class="date-toggle">
+    <button type="button" class="date-toggle-btn selected" id="btnToday" onclick="selectDateMode('today')">
+      <span style="font-size:18px;display:block;margin-bottom:4px;">📅</span>
+      今日
+    </button>
+    <button type="button" class="date-toggle-btn" id="btnOther" onclick="selectDateMode('other')">
+      <span style="font-size:18px;display:block;margin-bottom:4px;">🗓️</span>
+      別の日を指定
+    </button>
+  </div>
+  <div id="otherDateWrap" style="display:none;margin-top:10px;">
+    <input class="form-input" type="date" id="fortuneDateInput" />
+  </div>
 </div>
 
 <div class="category-section">
@@ -193,25 +209,25 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
     <span class="form-label-sub">選択しない場合は総合運を鑑定します</span>
   </div>
   <p class="category-sub">気になるカテゴリーをひとつ選んでください（任意）</p>
-  <div class="category-grid">
-    <div class="category-btn" onclick="selectCategory(this,'総合運')">
+  <div class="category-grid" id="categoryGrid">
+    <button type="button" class="category-btn" onclick="selectCategory(this,'総合運')">
       <span class="cat-icon">✦</span><span class="cat-name">総合運</span>
-    </div>
-    <div class="category-btn" onclick="selectCategory(this,'恋愛運')">
+    </button>
+    <button type="button" class="category-btn" onclick="selectCategory(this,'恋愛運')">
       <span class="cat-icon">💕</span><span class="cat-name">恋愛運</span>
-    </div>
-    <div class="category-btn" onclick="selectCategory(this,'仕事運')">
+    </button>
+    <button type="button" class="category-btn" onclick="selectCategory(this,'仕事運')">
       <span class="cat-icon">💼</span><span class="cat-name">仕事運</span>
-    </div>
-    <div class="category-btn" onclick="selectCategory(this,'金運')">
+    </button>
+    <button type="button" class="category-btn" onclick="selectCategory(this,'金運')">
       <span class="cat-icon">✨</span><span class="cat-name">金運</span>
-    </div>
-    <div class="category-btn" onclick="selectCategory(this,'健康運')">
+    </button>
+    <button type="button" class="category-btn" onclick="selectCategory(this,'健康運')">
       <span class="cat-icon">🌿</span><span class="cat-name">健康運</span>
-    </div>
-    <div class="category-btn" onclick="selectCategory(this,'人間関係')">
+    </button>
+    <button type="button" class="category-btn" onclick="selectCategory(this,'人間関係')">
       <span class="cat-icon">🤝</span><span class="cat-name">人間関係</span>
-    </div>
+    </button>
   </div>
 </div>
 
@@ -341,6 +357,19 @@ window.addEventListener('DOMContentLoaded',async()=>{
     }
   }
 });
+
+function selectDateMode(mode){
+  document.getElementById('btnToday').classList.remove('selected');
+  document.getElementById('btnOther').classList.remove('selected');
+  if(mode==='today'){
+    document.getElementById('btnToday').classList.add('selected');
+    document.getElementById('otherDateWrap').style.display='none';
+    document.getElementById('fortuneDateInput').value='';
+  } else {
+    document.getElementById('btnOther').classList.add('selected');
+    document.getElementById('otherDateWrap').style.display='block';
+  }
+}
 
 function selectCategory(el,name){
   document.querySelectorAll('.category-btn').forEach(b=>b.classList.remove('selected'));
