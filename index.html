@@ -441,8 +441,6 @@ async function startFortune(){
   const fortuneDate=document.getElementById('fortuneDateInput').value;
   document.getElementById('errorMsg').style.display='none';
   if(!name){alert('ニックネームをご入力ください');return;}
-  if(!dob){alert('生年月日をご入力ください');return;}
-
   document.getElementById('result').style.display='none';
   document.getElementById('loading').style.display='block';
   document.getElementById('fortuneBtn').disabled=true;
