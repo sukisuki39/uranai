@@ -133,6 +133,16 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
   <p class="header-desc">生年月日を入力するだけで<br>あなたの占いたい日を心地よくサバイブするための<br>ピンポイント星占いをお届けします</p>
 </header>
 
+<!-- 利用規約同意 -->
+<div class="agree-wrap">
+  <label class="agree-label">
+    <input type="checkbox" id="agreeCheck" onchange="toggleBtn()" />
+    <span class="agree-text">
+      <a href="terms.html" target="_blank" class="agree-link">利用規約・免責事項</a>を読み、同意します
+    </span>
+  </label>
+</div>
+
 <!-- ニックネーム -->
 <div class="form-section">
   <div class="form-label-row">
@@ -222,15 +232,6 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
   </div>
 </div>
 
-<div class="agree-wrap">
-  <label class="agree-label" id="agreeLabel">
-    <input type="checkbox" id="agreeCheck" onchange="toggleBtn()" />
-    <span class="agree-text">
-      <a href="terms.html" target="_blank" class="agree-link">利用規約・免責事項</a>を読み、同意します
-    </span>
-  </label>
-</div>
-
 <div class="cta-wrap">
   <button type="button" class="cta-btn" id="fortuneBtn" onclick="startFortune()" disabled>星に問いかける</button>
 </div>
@@ -260,7 +261,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
 <footer class="footer">
   <p class="footer-note">本コンテンツはエンターテインメントを目的としています。<br>重要なご判断は専門家にご相談ください。</p>
   <p style="margin-top:12px;font-size:11px;">
-    <a href="terms.html" style="color:var(--gold);text-decoration:none;letter-spacing:.08em;">利用規約・免責事項</a>
+    <a href="terms.html" target="_blank" style="color:var(--gold);text-decoration:none;letter-spacing:.08em;">利用規約・免責事項</a>
     　｜　
     <a href="mailto:kyounouranaiiine@gmail.com" style="color:var(--ink-pale);text-decoration:none;font-size:10px;">サポート窓口</a>
   </p>
