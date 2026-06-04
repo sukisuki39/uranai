@@ -72,6 +72,17 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
 .md strong{font-weight:600;color:var(--ink);}
 .md em{font-style:normal;color:var(--ink-soft);font-size:12px;line-height:1.9;display:block;margin-top:20px;padding:14px 16px;background:rgba(26,18,24,0.04);border-radius:4px;border-left:3px solid var(--border);}
 .md hr{border:none;border-top:1px solid var(--border);margin:24px 0;}
+.pdf-wrap{margin-top:0;padding:0 0 16px;}
+.pdf-btn{width:100%;padding:16px;background:var(--gold-pale);border:1px solid var(--gold-light);border-radius:4px;font-family:'Shippori Mincho B1',serif;font-size:14px;color:var(--gold);cursor:pointer;letter-spacing:.1em;transition:background .2s;-webkit-appearance:none;appearance:none;}
+.pdf-btn:hover{background:var(--gold-light);}
+.pdf-note{font-size:10px;color:var(--ink-pale);text-align:center;margin-top:8px;line-height:1.8;}
+@media print{
+  .cosmos-bg,.header,.form-section,.agree-wrap,.category-section,.cta-wrap,.loading,.pdf-wrap,.footer{display:none!important;}
+  .result{display:block!important;}
+  .result-header{border:1px solid #e8d8e0;}
+  body{background:#fff;}
+  .page{padding:0 16px;}
+}
 .footer{text-align:center;padding-top:40px;border-top:1px solid var(--border);margin-top:8px;}
 .footer-note{font-size:10px;color:var(--ink-pale);line-height:2.2;letter-spacing:.05em;}
 .agree-wrap{margin-bottom:16px;padding:16px 18px;background:var(--petal-pale);border:1px solid var(--petal-light);border-radius:4px;}
@@ -254,6 +265,10 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
   </div>
   <div class="fortune-block">
     <div id="resMarkdown" class="md"></div>
+  </div>
+  <div class="pdf-wrap" id="pdfWrap" style="display:none;">
+    <button type="button" class="pdf-btn" onclick="savePDF()">📄 鑑定結果をPDFで保存する</button>
+    <p class="pdf-note">※ 印刷ダイアログで「PDFに保存」を選択してください</p>
   </div>
 </div>
 </div>
@@ -511,6 +526,7 @@ async function startFortune(){
     document.getElementById('result').style.display='block';
     document.getElementById('fortuneBtn').disabled=true;
     document.getElementById('fortuneBtn').textContent='鑑定完了';
+    document.getElementById('pdfWrap').style.display='block';
     setTimeout(function(){window.scrollTo({top:document.getElementById('result').offsetTop-20,behavior:'smooth'});},100);
 
   }catch(e){
@@ -521,6 +537,10 @@ async function startFortune(){
     document.getElementById('fortuneBtn').disabled=false;
     console.error(e);
   }
+}
+
+function savePDF(){
+  window.print();
 }
 </script>
 </body>
