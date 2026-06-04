@@ -30,6 +30,8 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
 .support-note{font-size:11px;color:var(--ink-pale);margin-top:8px;line-height:1.8;}
 .back-link{display:inline-block;margin-top:32px;font-size:12px;color:var(--ink-soft);text-decoration:none;letter-spacing:.08em;border-bottom:1px solid var(--border);padding-bottom:2px;}
 .back-link:hover{color:var(--gold);}
+.copy-btn{margin:12px auto 0;display:block;padding:10px 20px;background:var(--gold);color:var(--white);border:none;border-radius:4px;font-size:13px;cursor:pointer;letter-spacing:.05em;transition:background .2s;}
+.copy-btn:hover{background:var(--gold-light);}
 .back-btn{display:block;text-align:center;margin-top:32px;padding:16px;background:var(--ink);color:var(--cream);text-decoration:none;border-radius:4px;font-family:'Shippori Mincho B1',serif;font-size:15px;font-weight:600;letter-spacing:.18em;transition:background .2s;}
 .back-btn:hover{background:var(--ink-mid);}
 .footer{text-align:center;padding-top:40px;border-top:1px solid var(--border);margin-top:40px;}
@@ -139,13 +141,24 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
 <!-- サポート窓口 -->
 <div class="support-box">
   <div class="support-title">✦ サポート窓口 ✦</div>
-  <div class="support-email"><a href="mailto:kyounouranaiiine@gmail.com" style="color:var(--gold);text-decoration:none;">kyounouranaiiine@gmail.com</a></div>
+  <div class="support-email" id="supportEmail">kyounouranaiiine@gmail.com</div>
+  <button onclick="copyEmail()" class="copy-btn" id="copyBtn">📋 メールアドレスをコピー</button>
   <div class="support-note">
-    お問い合わせは上記メールアドレスまでご連絡ください。<br>
+    上記メールアドレスをコピーして、メールアプリからお問い合わせください。<br>
     返信まで1〜3営業日いただく場合があります。<br>
     件名に「星詠み鑑定サポート」とご記入ください。
   </div>
 </div>
+
+<script>
+function copyEmail(){
+  navigator.clipboard.writeText('kyounouranaiiine@gmail.com').then(function(){
+    var btn=document.getElementById('copyBtn');
+    btn.textContent='✅ コピーしました！';
+    setTimeout(function(){btn.textContent='📋 メールアドレスをコピー';},2000);
+  });
+}
+</script>
 
 <a href="index.html" class="back-btn">← 占いページに戻る</a>
 
