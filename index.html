@@ -74,6 +74,12 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
 .md hr{border:none;border-top:1px solid var(--border);margin:24px 0;}
 .footer{text-align:center;padding-top:40px;border-top:1px solid var(--border);margin-top:8px;}
 .footer-note{font-size:10px;color:var(--ink-pale);line-height:2.2;letter-spacing:.05em;}
+.agree-wrap{margin-bottom:16px;padding:16px 18px;background:var(--petal-pale);border:1px solid var(--petal-light);border-radius:4px;}
+.agree-label{display:flex;align-items:flex-start;gap:10px;cursor:pointer;}
+.agree-label input[type="checkbox"]{width:18px;height:18px;margin-top:2px;accent-color:var(--ink);cursor:pointer;flex-shrink:0;}
+.agree-text{font-size:12px;color:var(--ink-soft);line-height:1.8;letter-spacing:.03em;}
+.agree-link{color:var(--gold);text-decoration:none;border-bottom:1px solid var(--gold-light);}
+.agree-link:hover{color:var(--ink);}
 .error-msg{background:#fff0f3;border:1px solid #f5c6cb;border-radius:4px;padding:16px 20px;font-size:13px;color:#842029;margin-top:16px;display:none;line-height:1.8;text-align:center;}
 .invalid-screen{display:none;text-align:center;padding:60px 20px;}
 .invalid-icon{font-size:48px;margin-bottom:20px;}
@@ -216,8 +222,17 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
   </div>
 </div>
 
+<div class="agree-wrap">
+  <label class="agree-label" id="agreeLabel">
+    <input type="checkbox" id="agreeCheck" onchange="toggleBtn()" />
+    <span class="agree-text">
+      <a href="terms.html" target="_blank" class="agree-link">利用規約・免責事項</a>を読み、同意します
+    </span>
+  </label>
+</div>
+
 <div class="cta-wrap">
-  <button type="button" class="cta-btn" id="fortuneBtn" onclick="startFortune()">星に問いかける</button>
+  <button type="button" class="cta-btn" id="fortuneBtn" onclick="startFortune()" disabled>星に問いかける</button>
 </div>
 <div class="error-msg" id="errorMsg"></div>
 
@@ -294,6 +309,12 @@ function formatDateJP(dateStr){
   var t=dateStr?new Date(dateStr):new Date();
   var wd=['日','月','火','水','木','金','土'];
   return t.getFullYear()+'年'+(t.getMonth()+1)+'月'+t.getDate()+'日（'+wd[t.getDay()]+'）';
+}
+
+function toggleBtn(){
+  var check=document.getElementById('agreeCheck');
+  var btn=document.getElementById('fortuneBtn');
+  btn.disabled=!check.checked;
 }
 
 function selectGender(gender){
@@ -430,6 +451,7 @@ async function startFortune(){
   var fortuneDate=fortuneDateEl?fortuneDateEl.value:'';
 
   document.getElementById('errorMsg').style.display='none';
+  if(!document.getElementById('agreeCheck').checked){alert('利用規約・免責事項への同意が必要です');return;}
   if(!name){alert('ニックネームをご入力ください');return;}
   if(!dobY||!dobM||!dobD){alert('生年月日をすべて選択してください');return;}
 
