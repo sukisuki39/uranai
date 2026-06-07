@@ -414,6 +414,20 @@ window.addEventListener('DOMContentLoaded',async function(){
     daySel.appendChild(opt3);
   }
 
+  // URLパラメータからカテゴリーを自動選択
+  var params=new URLSearchParams(window.location.search);
+  var categoryParam=params.get('category');
+  var categoryMap={
+    'total':'総合運','love':'恋愛運','work':'仕事運',
+    'money':'金運','health':'健康運','human':'人間関係'
+  };
+  if(categoryParam && categoryMap[categoryParam]){
+    var autoCategory=categoryMap[categoryParam];
+    selectedCategory=autoCategory;
+    var catBtn=document.getElementById('cat'+autoCategory);
+    if(catBtn) catBtn.classList.add('selected');
+  }
+
   // トークン検証
   currentToken=getTokenFromURL();
   if(currentToken){
