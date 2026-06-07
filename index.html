@@ -428,6 +428,12 @@ window.addEventListener('DOMContentLoaded',async function(){
   }
 });
 
+function convertLinks(text){
+  return text.replace(/\[([^\]]+)\]\(([^)]+)\)/g,function(m,t,u){
+    return '<a href="'+u+'" target="_blank" style="color:var(--gold);text-decoration:none;border-bottom:1px solid var(--gold-light);">'+t+'</a>';
+  });
+}
+
 function renderMarkdown(text){
   var lines=text.split('\n');
   var html='';
@@ -437,13 +443,18 @@ function renderMarkdown(text){
     if(line==='---'){
       if(inList){html+='</ul>';inList=false;}
       html+='<hr>';
+    } else if(line.indexOf('## ')===0){
+      if(inList){html+='</ul>';inList=false;}
+      var h2=line.replace('## ','');
+      html+='<h2 style="font-family:serif;font-size:14px;color:var(--petal);letter-spacing:.15em;margin:28px 0 12px;padding:8px 14px;background:var(--petal-pale);border-left:3px solid var(--petal);border-radius:0 4px 4px 0;">'+convertLinks(h2)+'</h2>';
     } else if(line.indexOf('### ')===0){
       if(inList){html+='</ul>';inList=false;}
-      html+='<h3>'+line.replace('### ','')+'</h3>';
+      html+='<h3>'+convertLinks(line.replace('### ',''))+'</h3>';
     } else if(line.indexOf('* ')===0){
       if(!inList){html+='<ul>';inList=true;}
       var li=line.replace('* ','');
       li=li.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');
+      li=convertLinks(li);
       html+='<li>'+li+'</li>';
     } else if(line.trim()===''){
       if(inList){html+='</ul>';inList=false;}
@@ -451,6 +462,7 @@ function renderMarkdown(text){
       if(inList){html+='</ul>';inList=false;}
       var p=line.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');
       p=p.replace(/\*([^*]+)\*/g,'<em>$1</em>');
+      p=convertLinks(p);
       html+='<p>'+p+'</p>';
     }
   }
