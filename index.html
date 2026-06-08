@@ -435,7 +435,7 @@ window.addEventListener('DOMContentLoaded',async function(){
   };
   if(categoryParam && categoryMap[categoryParam]){
     var autoCategory=categoryMap[categoryParam];
-    selectedCategory=autoCategory;
+    selectedCategories=[autoCategory];
     var catBtn=document.getElementById('cat'+autoCategory);
     if(catBtn) catBtn.classList.add('selected');
   }
@@ -516,7 +516,6 @@ async function startFortune(){
   var lifeNum=getLifeNumber(y,m,d);
   var targetDate=fortuneDate?new Date(fortuneDate):new Date();
   var todayStr=targetDate.getFullYear()+'年'+(targetDate.getMonth()+1)+'月'+targetDate.getDate()+'日';
-  var category=selectedCategory||'総合運';
 
   document.getElementById('result').style.display='none';
   document.getElementById('loading').style.display='block';
