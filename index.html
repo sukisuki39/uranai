@@ -248,7 +248,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
 </div>
 
 <div class="cta-wrap">
-  <button type="button" class="cta-btn" id="fortuneBtn" onclick="startFortune()" disabled>星に問いかける</button>
+  <button type="button" class="cta-btn" id="fortuneBtn" onclick="startFortune()">星に問いかける</button>
 </div>
 <div class="error-msg" id="errorMsg"></div>
 
@@ -331,9 +331,10 @@ function formatDateJP(dateStr){
 }
 
 function toggleBtn(){
-  var check=document.getElementById('agreeCheck');
-  var btn=document.getElementById('fortuneBtn');
-  btn.disabled=!check.checked;
+  // チェック時にメッセージを非表示にする
+  if(document.getElementById('agreeCheck').checked){
+    document.getElementById('agreeMsg').style.display='none';
+  }
 }
 
 function selectGender(gender){
