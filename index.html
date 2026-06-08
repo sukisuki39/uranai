@@ -97,7 +97,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
 .suki-bubble{display:inline-block;background:var(--white);border:1px solid var(--border);border-radius:16px 16px 16px 4px;padding:12px 18px;font-family:'Shippori Mincho B1',serif;font-size:13px;color:var(--ink-mid);line-height:1.8;margin-top:12px;max-width:280px;text-align:left;box-shadow:0 2px 12px rgba(184,147,74,.08);}
 .suki-bubble::before{content:'✦ SUKI ';font-size:10px;color:var(--gold);letter-spacing:.1em;display:block;margin-bottom:4px;}
 .suki-mini{display:flex;align-items:center;gap:12px;margin:20px 0;padding:16px;background:var(--white);border:1px solid var(--border);border-radius:12px;}
-.suki-mini-img{width:56px;height:56px;border-radius:50%;object-fit:cover;object-position:top;flex-shrink:0;border:2px solid var(--gold-light);}
+.suki-mini-img{width:60px;height:80px;border-radius:8px;object-fit:cover;object-position:top center;flex-shrink:0;border:2px solid var(--gold-light);}
 .suki-mini-text{font-size:12px;color:var(--ink-mid);line-height:1.8;font-family:'Shippori Mincho B1',serif;}
 .suki-mini-name{font-size:10px;color:var(--gold);letter-spacing:.1em;margin-bottom:2px;}
 .invalid-screen{display:none;text-align:center;padding:60px 20px;}
@@ -154,7 +154,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
 
 <!-- SUKIさん：ヘッダー下 -->
 <div class="suki-wrap">
-  <img src="suki.png" alt="占星術師 SUKI" class="suki-img" />
+  <img src="suki.png" alt="占星術師 SUKI" class="suki-img" style="width:100%;max-width:400px;aspect-ratio:3/4;object-fit:cover;object-position:top;" />
   <div class="suki-bubble">
     はじめまして、SUKIです。<br>
     星があなたに語りかける言葉を、<br>
@@ -271,7 +271,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
 <div class="error-msg" id="errorMsg"></div>
 
 <div class="loading" id="loading">
-  <img src="suki.png" alt="SUKI" style="width:120px;border-radius:12px;margin-bottom:16px;opacity:.9;" />
+  <img src="suki.png" alt="SUKI" style="width:100px;height:133px;object-fit:cover;object-position:top;border-radius:12px;margin-bottom:16px;opacity:.9;" />
   <div class="loading-text">星の声を聴いています</div>
 </div>
 
