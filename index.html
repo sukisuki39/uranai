@@ -162,19 +162,6 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
   </div>
 </div>
 
-<!-- 利用規約同意 -->
-<div class="agree-wrap">
-  <label class="agree-label">
-    <input type="checkbox" id="agreeCheck" onchange="toggleBtn()" />
-    <span class="agree-text">
-      <a href="terms.html" target="_blank" class="agree-link">利用規約・免責事項</a>を読み、同意します
-    </span>
-  </label>
-</div>
-<div id="agreeMsg" style="display:none;margin-top:8px;padding:10px 14px;background:#fff0f3;border:1px solid #f5c6cb;border-radius:4px;font-size:12px;color:#842029;line-height:1.8;">
-  ✋ <a href="terms.html" target="_blank" style="color:#842029;font-weight:600;text-decoration:underline;">利用規約・免責事項</a>を読み、チェックボックスに同意してから占いをお受けください。
-</div>
-
 <!-- ニックネーム -->
 <div class="form-section">
   <div class="form-label-row">
@@ -265,13 +252,26 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
   </div>
 </div>
 
+<!-- 利用規約同意 -->
+<div class="agree-wrap" style="margin-bottom:16px;">
+  <label class="agree-label">
+    <input type="checkbox" id="agreeCheck" onchange="toggleBtn()" />
+    <span class="agree-text">
+      <a href="terms.html" target="_blank" class="agree-link">利用規約・免責事項</a>を読み、同意します
+    </span>
+  </label>
+</div>
+<div id="agreeMsg" style="display:none;margin-bottom:12px;padding:10px 14px;background:#fff0f3;border:1px solid #f5c6cb;border-radius:4px;font-size:12px;color:#842029;line-height:1.8;">
+  ✋ <a href="terms.html" target="_blank" style="color:#842029;font-weight:600;text-decoration:underline;">利用規約・免責事項</a>を読み、チェックボックスに同意してから占いをお受けください。
+</div>
+
 <div class="cta-wrap">
   <button type="button" class="cta-btn" id="fortuneBtn" onclick="startFortune()">星に問いかける</button>
 </div>
 <div class="error-msg" id="errorMsg"></div>
 
 <div class="loading" id="loading">
-  <img src="suki.png" alt="SUKI" style="width:100px;height:133px;object-fit:cover;object-position:top;border-radius:12px;margin-bottom:16px;opacity:.9;" />
+  <span class="loading-symbol">✦</span>
   <div class="loading-text">星の声を聴いています</div>
 </div>
 
