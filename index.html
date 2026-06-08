@@ -92,6 +92,14 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
 .agree-link{color:var(--gold);text-decoration:none;border-bottom:1px solid var(--gold-light);}
 .agree-link:hover{color:var(--ink);}
 .error-msg{background:#fff0f3;border:1px solid #f5c6cb;border-radius:4px;padding:16px 20px;font-size:13px;color:#842029;margin-top:16px;display:none;line-height:1.8;text-align:center;}
+.suki-wrap{text-align:center;margin:0 0 32px;}
+.suki-img{width:100%;max-width:320px;border-radius:16px;box-shadow:0 8px 40px rgba(184,147,74,.15);}
+.suki-bubble{display:inline-block;background:var(--white);border:1px solid var(--border);border-radius:16px 16px 16px 4px;padding:12px 18px;font-family:'Shippori Mincho B1',serif;font-size:13px;color:var(--ink-mid);line-height:1.8;margin-top:12px;max-width:280px;text-align:left;box-shadow:0 2px 12px rgba(184,147,74,.08);}
+.suki-bubble::before{content:'✦ SUKI ';font-size:10px;color:var(--gold);letter-spacing:.1em;display:block;margin-bottom:4px;}
+.suki-mini{display:flex;align-items:center;gap:12px;margin:20px 0;padding:16px;background:var(--white);border:1px solid var(--border);border-radius:12px;}
+.suki-mini-img{width:56px;height:56px;border-radius:50%;object-fit:cover;object-position:top;flex-shrink:0;border:2px solid var(--gold-light);}
+.suki-mini-text{font-size:12px;color:var(--ink-mid);line-height:1.8;font-family:'Shippori Mincho B1',serif;}
+.suki-mini-name{font-size:10px;color:var(--gold);letter-spacing:.1em;margin-bottom:2px;}
 .invalid-screen{display:none;text-align:center;padding:60px 20px;}
 .invalid-icon{font-size:48px;margin-bottom:20px;}
 .invalid-title{font-family:'Shippori Mincho B1',serif;font-size:20px;color:var(--ink);margin-bottom:12px;}
@@ -143,6 +151,16 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
   <h1 class="header-title">星が、<br><em>あなたに語りかける。</em></h1>
   <p class="header-desc">生年月日を入力するだけで<br>あなたの占いたい日を心地よくサバイブするための<br>ピンポイント星占いをお届けします</p>
 </header>
+
+<!-- SUKIさん：ヘッダー下 -->
+<div class="suki-wrap">
+  <img src="suki.png" alt="占星術師 SUKI" class="suki-img" />
+  <div class="suki-bubble">
+    はじめまして、SUKIです。<br>
+    星があなたに語りかける言葉を、<br>
+    一緒に聴きましょう。
+  </div>
+</div>
 
 <!-- 利用規約同意 -->
 <div class="agree-wrap">
@@ -253,11 +271,20 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
 <div class="error-msg" id="errorMsg"></div>
 
 <div class="loading" id="loading">
-  <span class="loading-symbol">✦</span>
+  <img src="suki.png" alt="SUKI" style="width:120px;border-radius:12px;margin-bottom:16px;opacity:.9;" />
   <div class="loading-text">星の声を聴いています</div>
 </div>
 
 <div class="result" id="result">
+  <!-- SUKIさん：鑑定結果冒頭 -->
+  <div class="suki-mini">
+    <img src="suki.png" alt="SUKI" class="suki-mini-img" />
+    <div>
+      <div class="suki-mini-name">✦ ASTROLOGER SUKI</div>
+      <div class="suki-mini-text">星があなたに伝えたいことがあります。<br>今日という日を大切に。</div>
+    </div>
+  </div>
+
   <div class="result-header">
     <div class="result-date" id="resDate"></div>
     <div class="result-sign-row">
@@ -270,6 +297,15 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
   <div class="fortune-block">
     <div id="resMarkdown" class="md"></div>
   </div>
+  <!-- SUKIさん：締めのメッセージ -->
+  <div class="suki-mini" id="sukiEnd" style="display:none;">
+    <img src="suki.png" alt="SUKI" class="suki-mini-img" />
+    <div>
+      <div class="suki-mini-name">✦ ASTROLOGER SUKI</div>
+      <div class="suki-mini-text">今日も星があなたの味方です。<br>また明日も、ここで待っています。✦</div>
+    </div>
+  </div>
+
   <div class="pdf-wrap" id="pdfWrap" style="display:none;">
     <button type="button" class="pdf-btn" onclick="savePDF()">📄 鑑定結果をPDFで保存する</button>
     <p class="pdf-note">※ 印刷ダイアログで「PDFに保存」を選択してください</p>
@@ -575,6 +611,7 @@ async function startFortune(){
     document.getElementById('fortuneBtn').disabled=true;
     document.getElementById('fortuneBtn').textContent='鑑定完了';
     document.getElementById('pdfWrap').style.display='block';
+    document.getElementById('sukiEnd').style.display='flex';
     setTimeout(function(){window.scrollTo({top:document.getElementById('result').offsetTop-20,behavior:'smooth'});},100);
 
   }catch(e){
