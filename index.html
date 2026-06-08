@@ -219,8 +219,9 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
 <div class="form-section">
   <div class="form-label-row">
     <span class="form-label">鑑定カテゴリー</span>
-    <span class="form-label-sub">選択しない場合は総合運を鑑定します</span>
+    <span class="form-label-sub">最大3つまで選択できます</span>
   </div>
+  <div id="catCountMsg" style="font-size:11px;color:var(--gold);margin-bottom:10px;min-height:16px;"></div>
   <div class="category-grid">
     <button type="button" class="cat-btn" id="cat総合運" onclick="selectCategory('総合運')">
       <span class="cat-icon">✦</span>総合運
@@ -286,7 +287,6 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
 <script>
 var WORKER_URL='https://uranai-worker.suukii01.workers.dev';
 var selectedGender='';
-var selectedCategory='';
 var currentToken='';
 
 var zodiacList=[
@@ -356,16 +356,28 @@ function selectDateMode(mode){
   }
 }
 
+var selectedCategories=[];
+
 function selectCategory(name){
-  var btns=['cat総合運','cat恋愛運','cat仕事運','cat金運','cat健康運','cat人間関係'];
-  for(var i=0;i<btns.length;i++){
-    document.getElementById(btns[i]).classList.remove('selected');
-  }
-  if(selectedCategory===name){
-    selectedCategory='';
+  var idx=selectedCategories.indexOf(name);
+  if(idx>=0){
+    // 選択解除
+    selectedCategories.splice(idx,1);
+    document.getElementById('cat'+name).classList.remove('selected');
   } else {
-    selectedCategory=name;
+    if(selectedCategories.length>=3){
+      alert('カテゴリーは最大3つまで選択できます');
+      return;
+    }
+    selectedCategories.push(name);
     document.getElementById('cat'+name).classList.add('selected');
+  }
+  // カウント表示
+  var msg=document.getElementById('catCountMsg');
+  if(selectedCategories.length>0){
+    msg.textContent='選択中：'+selectedCategories.join('・')+'（'+selectedCategories.length+'/3）';
+  } else {
+    msg.textContent='';
   }
 }
 
@@ -524,7 +536,7 @@ async function startFortune(){
         birthMonth:m,
         birthDay:d,
         todayStr:todayStr,
-        category:category,
+        categories:selectedCategories.length>0?selectedCategories:['総合運'],
         gender:selectedGender,
         token:currentToken
       })
@@ -545,7 +557,8 @@ async function startFortune(){
     document.getElementById('resSymbol').textContent=zodiac.symbol;
     document.getElementById('resSignName').textContent=zodiac.name;
     document.getElementById('resPerson').textContent=name+' さんへ';
-    document.getElementById('resCategoryBadge').textContent='✦ '+category;
+    var cats=selectedCategories.length>0?selectedCategories:['総合運'];
+    document.getElementById('resCategoryBadge').textContent='✦ '+cats.join('・');
     document.getElementById('resMarkdown').innerHTML=renderMarkdown(f.markdown||'');
 
     document.getElementById('loading').style.display='none';
