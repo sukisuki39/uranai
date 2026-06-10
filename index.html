@@ -149,7 +149,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
 <header class="header">
   <div class="header-eyebrow">Daily Horoscope</div>
   <h1 class="header-title">星が、<br><em>あなたに語りかける。</em></h1>
-  <p class="header-desc">生年月日を入力するだけで<br>あなたの占いたい日を心地よくサバイブするための<br>ピンポイント星占いをお届けします</p>
+  <p class="header-desc">今この瞬間、星があなたに語りかけています。<br>生年月日を入力するだけで<br>今この瞬間のあなたに必要なメッセージをお届けします</p>
 </header>
 
 <!-- SUKIさん：ヘッダー下 -->
@@ -157,8 +157,9 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
   <img src="suki.png" alt="占星術師 SUKI" class="suki-img" style="width:100%;max-width:400px;aspect-ratio:3/4;object-fit:cover;object-position:top;" />
   <div class="suki-bubble">
     はじめまして、SUKIです。<br>
-    星があなたに語りかける言葉を、<br>
-    一緒に聴きましょう。
+    今この瞬間、星があなたに<br>
+    伝えたいことがあるみたい。<br>
+    一緒に聴いてみませんか？
   </div>
 </div>
 
@@ -204,24 +205,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
   </div>
 </div>
 
-<!-- 占いたい日 -->
-<div class="form-section">
-  <div class="form-label-row">
-    <span class="form-label">占いたい日</span>
-    <span class="form-label-sub">選択してください</span>
-  </div>
-  <div class="toggle-grid toggle-grid-2">
-    <button type="button" class="toggle-btn selected" id="btnToday" onclick="selectDateMode('today')">
-      <span class="icon">📅</span>今日
-    </button>
-    <button type="button" class="toggle-btn" id="btnOther" onclick="selectDateMode('other')">
-      <span class="icon">🗓️</span>別の日を指定
-    </button>
-  </div>
-  <div id="otherDateWrap" style="display:none;margin-top:10px;">
-    <input class="form-input" type="date" id="fortuneDateInput" />
-  </div>
-</div>
+
 
 <!-- カテゴリー -->
 <div class="form-section">
@@ -361,9 +345,11 @@ function getLifeNumber(y,m,d){
 }
 
 function formatDateJP(dateStr){
-  var t=dateStr?new Date(dateStr):new Date();
+  var t=new Date();
   var wd=['日','月','火','水','木','金','土'];
-  return t.getFullYear()+'年'+(t.getMonth()+1)+'月'+t.getDate()+'日（'+wd[t.getDay()]+'）';
+  var h=t.getHours();
+  var timeLabel=h<6?'深夜':h<10?'朝':h<13?'午前':h<17?'午後':h<21?'夕方':'夜';
+  return t.getFullYear()+'年'+(t.getMonth()+1)+'月'+t.getDate()+'日（'+wd[t.getDay()]+'）'+timeLabel;
 }
 
 function toggleBtn(){
@@ -573,8 +559,7 @@ async function startFortune(){
   var dobY=document.getElementById('dobYear').value;
   var dobM=document.getElementById('dobMonth').value;
   var dobD=document.getElementById('dobDay').value;
-  var fortuneDateEl=document.getElementById('fortuneDateInput');
-  var fortuneDate=fortuneDateEl?fortuneDateEl.value:'';
+  var fortuneDate='';
 
   document.getElementById('errorMsg').style.display='none';
   if(!document.getElementById('agreeCheck').checked){
