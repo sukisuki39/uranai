@@ -302,7 +302,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
     <img src="suki.png" alt="SUKI" class="suki-mini-img" />
     <div>
       <div class="suki-mini-name">✦ ASTROLOGER SUKI</div>
-      <div class="suki-mini-text">今日も星があなたの味方です。<br>また明日も、ここで待っています。✦</div>
+      <div class="suki-mini-text">今日も星があなたの味方です。<br>この鑑定書、必ずPDFで保存しておいてね。<br>また明日も、ここで待っています。✦</div>
     </div>
   </div>
 
@@ -485,11 +485,43 @@ window.addEventListener('DOMContentLoaded',async function(){
   if(currentToken){
     var result=await verifyToken(currentToken);
     if(!result.valid){
-      var title='このURLは無効です';
-      var text='正しいURLをご確認ください。';
-      if(result.reason==='used'){title='このURLはすでに使用済みです';text='鑑定は1回限りとなっております。<br>新しい鑑定をご希望の方は、再度ご購入ください。';}
-      else if(result.reason==='expired'){title='このURLは有効期限切れです';text='URLの有効期限（24時間）が過ぎています。<br>再度ご購入ください。';}
-      showInvalidScreen(title,text);
+      if(result.reason==='used'){
+        // 使用済みの場合、保存された結果を取得して再表示
+        try{
+          var savedRes=await fetch(WORKER_URL+'/get-result',{
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({token:currentToken})
+          });
+          var savedData=await savedRes.json();
+          if(savedData.markdown){
+            // 保存された結果を再表示
+            document.getElementById('mainContent').style.display='block';
+            document.getElementById('resDate').textContent='（保存された鑑定結果）';
+            document.getElementById('resSymbol').textContent='✦';
+            document.getElementById('resSignName').textContent='';
+            document.getElementById('resPerson').textContent='鑑定結果の再表示';
+            document.getElementById('resCategoryBadge').textContent=savedData.category||'';
+            document.getElementById('resMarkdown').innerHTML=renderMarkdown(savedData.markdown||'');
+            document.getElementById('result').style.display='block';
+            document.getElementById('pdfWrap').style.display='block';
+            document.getElementById('sukiEnd').style.display='flex';
+            // フォームを非表示
+            document.querySelectorAll('.form-section,.agree-wrap,.cta-wrap,.category-section,.suki-wrap').forEach(function(el){el.style.display='none';});
+            // 再表示メッセージ
+            var notice=document.createElement('div');
+            notice.style.cssText='background:#fff0f3;border:1px solid #f5c6cb;border-radius:4px;padding:12px 16px;font-size:12px;color:#842029;margin-bottom:16px;line-height:1.8;';
+            notice.innerHTML='📋 以前の鑑定結果を再表示しています。<br>必ずPDFで保存してください。';
+            document.getElementById('result').insertBefore(notice,document.getElementById('result').firstChild);
+            return;
+          }
+        }catch(e){}
+        showInvalidScreen('このURLはすでに使用済みです','鑑定は1回限りとなっております。<br>新しい鑑定をご希望の方は、再度ご購入ください。');
+      } else if(result.reason==='expired'){
+        showInvalidScreen('このURLは有効期限切れです','URLの有効期限（24時間）が過ぎています。<br>再度ご購入ください。');
+      } else {
+        showInvalidScreen('このURLは無効です','正しいURLをご確認ください。');
+      }
     }
   }
 });
