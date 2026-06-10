@@ -316,28 +316,22 @@ var WORKER_URL='https://uranai-worker.suukii01.workers.dev';
 var selectedGender='';
 var currentToken='';
 
-var zodiacList=[
-  {name:'山羊座',symbol:'♑',sm:12,sd:22,em:12,ed:31},
-  {name:'山羊座',symbol:'♑',sm:1,sd:1,em:1,ed:19},
-  {name:'水瓶座',symbol:'♒',sm:1,sd:20,em:2,ed:18},
-  {name:'魚座',symbol:'♓',sm:2,sd:19,em:3,ed:20},
-  {name:'牡羊座',symbol:'♈',sm:3,sd:21,em:4,ed:19},
-  {name:'牡牛座',symbol:'♉',sm:4,sd:20,em:5,ed:20},
-  {name:'双子座',symbol:'♊',sm:5,sd:21,em:6,ed:21},
-  {name:'蟹座',symbol:'♋',sm:6,sd:22,em:7,ed:22},
-  {name:'獅子座',symbol:'♌',sm:7,sd:23,em:8,ed:22},
-  {name:'乙女座',symbol:'♍',sm:8,sd:23,em:9,ed:22},
-  {name:'天秤座',symbol:'♎',sm:9,sd:23,em:10,ed:23},
-  {name:'蠍座',symbol:'♏',sm:10,sd:24,em:11,ed:22},
-  {name:'射手座',symbol:'♐',sm:11,sd:23,em:12,ed:21},
-];
-
 function getZodiac(m,d){
-  for(var i=0;i<zodiacList.length;i++){
-    var z=zodiacList[i];
-    if((m===z.sm&&d>=z.sd)||(m===z.em&&d<=z.ed))return z;
-  }
-  return zodiacList[0];
+  if((m===1&&d<=19)||(m===12&&d>=22))return {name:'山羊座',symbol:'♑'};
+  if((m===1&&d>=20)||(m===2&&d<=18))return {name:'水瓶座',symbol:'♒'};
+  if((m===2&&d>=19)||(m===3&&d<=20))return {name:'魚座',symbol:'♓'};
+  if((m===3&&d>=21)||(m===4&&d<=19))return {name:'牡羊座',symbol:'♈'};
+  if((m===4&&d>=20)||(m===5&&d<=20))return {name:'牡牛座',symbol:'♉'};
+  if((m===5&&d>=21)||(m===6&&d<=21))return {name:'双子座',symbol:'♊'};
+  if((m===6&&d>=22)||(m===7&&d<=22))return {name:'蟹座',symbol:'♋'};
+  if((m===7&&d>=23)||(m===8&&d<=22))return {name:'獅子座',symbol:'♌'};
+  if((m===8&&d>=23)||(m===9&&d<=22))return {name:'乙女座',symbol:'♍'};
+  if((m===9&&d>=23)||(m===10&&d<=23))return {name:'天秤座',symbol:'♎'};
+  if((m===10&&d>=24)||(m===11&&d<=22))return {name:'蠍座',symbol:'♏'};
+  // 蛇使い座の期間（11月29日〜12月17日）は射手座と並記
+  if((m===11&&d>=29)||(m===12&&d<=17))return {name:'射手座（⛎蛇使い座）',symbol:'♐',ophiuchus:true};
+  if((m===11&&d>=23)||(m===12&&d<=21))return {name:'射手座',symbol:'♐'};
+  return {name:'山羊座',symbol:'♑'};
 }
 
 function getLifeNumber(y,m,d){
