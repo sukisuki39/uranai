@@ -259,7 +259,8 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
 
 <div class="loading" id="loading">
   <span class="loading-symbol">✦</span>
-  <div class="loading-text">星の声を聴いています</div>
+  <div class="loading-text" id="loadingText">星の声を聴いています</div>
+  <div style="font-size:11px;color:var(--ink-pale);margin-top:12px;letter-spacing:.1em;">少々お待ちください…</div>
 </div>
 
 <div class="result" id="result">
@@ -521,6 +522,29 @@ function convertLinks(text){
   });
 }
 
+var loadingTimer = null;
+var loadingMessages = [
+  '星の声を聴いています',
+  '天体の配置を読み解いています',
+  'SUKIがあなたへのメッセージを綴っています',
+  'もう少しだけお待ちください',
+  '星からの言葉を丁寧に届けています'
+];
+
+function startLoadingMessages(){
+  var i = 0;
+  document.getElementById('loadingText').textContent = loadingMessages[0];
+  loadingTimer = setInterval(function(){
+    i = (i + 1) % loadingMessages.length;
+    var el = document.getElementById('loadingText');
+    if(el) el.textContent = loadingMessages[i];
+  }, 3000);
+}
+
+function stopLoadingMessages(){
+  if(loadingTimer){ clearInterval(loadingTimer); loadingTimer = null; }
+}
+
 function renderMarkdown(text){
   var lines=text.split('\n');
   var html='';
@@ -585,6 +609,7 @@ async function startFortune(){
 
   document.getElementById('result').style.display='none';
   document.getElementById('loading').style.display='block';
+  startLoadingMessages();
   document.getElementById('fortuneBtn').disabled=true;
   window.scrollTo({top:document.getElementById('loading').offsetTop-40,behavior:'smooth'});
 
@@ -626,6 +651,7 @@ async function startFortune(){
     document.getElementById('resCategoryBadge').textContent='✦ '+cats.join('・');
     document.getElementById('resMarkdown').innerHTML=renderMarkdown(f.markdown||'');
 
+    stopLoadingMessages();
     document.getElementById('loading').style.display='none';
     document.getElementById('result').style.display='block';
     document.getElementById('fortuneBtn').disabled=true;
@@ -635,6 +661,7 @@ async function startFortune(){
     setTimeout(function(){window.scrollTo({top:document.getElementById('result').offsetTop-20,behavior:'smooth'});},100);
 
   }catch(e){
+    stopLoadingMessages();
     document.getElementById('loading').style.display='none';
     var el=document.getElementById('errorMsg');
     el.textContent='鑑定中にエラーが発生しました。しばらくしてからもう一度お試しください。';
