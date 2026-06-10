@@ -211,9 +211,12 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
 <div class="form-section">
   <div class="form-label-row">
     <span class="form-label">鑑定カテゴリー</span>
-    <span class="form-label-sub">最大3つまで選択できます</span>
   </div>
-  <div id="catCountMsg" style="font-size:11px;color:var(--gold);margin-bottom:10px;min-height:16px;"></div>
+  <p style="font-size:13px;font-weight:500;color:var(--ink);margin-bottom:10px;letter-spacing:.05em;">
+    ✦ 気になるテーマを最大3つまで選べます
+  </p>
+  <p style="font-size:11px;color:var(--ink-pale);margin-bottom:12px;">選ばない場合は総合運で鑑定します</p>
+  <div id="catCountMsg" style="font-size:12px;font-weight:500;color:var(--gold);margin-bottom:10px;min-height:18px;"></div>
   <div class="category-grid">
     <button type="button" class="cat-btn" id="cat総合運" onclick="selectCategory('総合運')">
       <span class="cat-icon">✦</span>総合運
