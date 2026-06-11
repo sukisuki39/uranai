@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SUKI Astrology | A Reading Just for You</title>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;600;800&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1a1218;--ink-mid:#3d2e38;--ink-soft:#7a6070;--ink-pale:#b09aa8;
+  --petal:#d4a0b5;--petal-light:#ecdde5;--petal-pale:#faf3f6;
+  --gold:#b8934a;--gold-light:#dfc898;--gold-pale:#f7f0e3;
+  --cream:#fdf8f5;--white:#ffffff;--border:#e8d8e0;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--ink);min-height:100vh;font-weight:300;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+.cosmos-bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+.cosmos-bg svg{width:100%;height:100%;opacity:0.15;}
+.page{position:relative;z-index:1;max-width:640px;margin:0 auto;padding:0 24px 80px;}
+.header{padding:56px 0 44px;text-align:center;border-bottom:1px solid var(--border);margin-bottom:44px;}
+.header-eyebrow{font-size:10px;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;margin-bottom:18px;display:flex;align-items:center;justify-content:center;gap:14px;}
+.header-eyebrow::before,.header-eyebrow::after{content:'';width:28px;height:1px;background:var(--gold-light);}
+.header-title{font-family:'Shippori Mincho B1',serif;font-size:clamp(26px,6.5vw,40px);font-weight:800;color:var(--ink);line-height:1.3;letter-spacing:.06em;margin-bottom:14px;}
+.header-title em{font-style:normal;color:var(--petal);}
+.header-desc{font-size:12px;color:var(--ink-soft);letter-spacing:.08em;line-height:2.2;}
+.form-section{margin-bottom:28px;}
+.form-label-row{display:flex;align-items:baseline;gap:8px;margin-bottom:10px;}
+.form-label{font-family:'Shippori Mincho B1',serif;font-size:13px;color:var(--ink-mid);letter-spacing:.08em;}
+.form-label-sub{font-size:10px;color:var(--ink-pale);}
+.form-input{width:100%;padding:15px 18px;background:var(--white);border:1px solid var(--border);border-radius:4px;font-family:'Noto Sans JP',sans-serif;font-size:15px;font-weight:300;color:var(--ink);outline:none;transition:border-color .25s,box-shadow .25s;-webkit-appearance:none;appearance:none;}
+.form-input:focus{border-color:var(--petal);box-shadow:0 0 0 3px rgba(212,160,181,.15);}
+.form-input::placeholder{color:var(--ink-pale);}
+.form-note{font-size:10px;color:var(--ink-pale);margin-top:6px;line-height:1.8;}
+.dob-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:8px;}
+.toggle-grid{display:grid;gap:8px;}
+.toggle-grid-2{grid-template-columns:1fr 1fr;}
+.toggle-grid-3{grid-template-columns:1fr 1fr 1fr;}
+.toggle-btn{padding:12px 8px;background:var(--white);border:1px solid var(--border);border-radius:4px;font-family:'Noto Sans JP',sans-serif;font-size:12px;color:var(--ink-soft);cursor:pointer;transition:all .2s;text-align:center;-webkit-appearance:none;appearance:none;}
+.toggle-btn .icon{display:block;font-size:18px;margin-bottom:4px;}
+.toggle-btn.selected{background:var(--ink);border-color:var(--ink);color:var(--cream);}
+.toggle-btn:hover:not(.selected){border-color:var(--petal);color:var(--ink);}
+.category-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.cat-btn{padding:12px 8px;background:var(--white);border:1px solid var(--border);border-radius:4px;font-family:'Noto Sans JP',sans-serif;font-size:12px;color:var(--ink-soft);cursor:pointer;transition:all .2s;text-align:center;-webkit-appearance:none;appearance:none;}
+.cat-btn .cat-icon{display:block;font-size:20px;margin-bottom:4px;}
+.cat-btn.selected{background:var(--ink);border-color:var(--ink);color:var(--cream);}
+.cat-btn:hover:not(.selected){border-color:var(--petal);color:var(--ink);}
+.cta-wrap{margin:36px 0;}
+.cta-btn{width:100%;padding:20px;background:var(--ink);color:var(--cream);border:none;border-radius:4px;font-family:'Shippori Mincho B1',serif;font-size:15px;font-weight:600;letter-spacing:.22em;cursor:pointer;transition:background .3s;-webkit-appearance:none;appearance:none;}
+.cta-btn:hover{background:var(--ink-mid);}
+.cta-btn:disabled{background:var(--ink-pale);cursor:not-allowed;}
+.loading{display:none;padding:60px 0;text-align:center;}
+.loading-symbol{font-size:36px;display:block;margin-bottom:20px;animation:slowSpin 8s linear infinite;}
+@keyframes slowSpin{to{transform:rotate(360deg);}}
+.loading-text{font-family:'Shippori Mincho B1',serif;font-size:13px;color:var(--ink-soft);letter-spacing:.2em;}
+.result{display:none;animation:revealUp .8s cubic-bezier(.22,1,.36,1) forwards;}
+@keyframes revealUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+.result-header{text-align:center;padding:36px 24px 32px;background:var(--white);border:1px solid var(--border);margin-bottom:2px;}
+.result-date{font-size:10px;letter-spacing:.3em;color:var(--gold);margin-bottom:14px;}
+.result-sign-row{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:8px;}
+.result-sign-symbol{font-size:28px;line-height:1;}
+.result-sign-name{font-family:'Shippori Mincho B1',serif;font-size:18px;color:var(--ink-mid);letter-spacing:.08em;}
+.result-person{font-family:'Shippori Mincho B1',serif;font-size:22px;color:var(--ink);font-weight:800;letter-spacing:.05em;margin-bottom:8px;}
+.result-category-badge{display:inline-block;background:var(--petal-pale);border:1px solid var(--petal-light);border-radius:20px;padding:4px 16px;font-size:11px;color:var(--ink-soft);letter-spacing:.1em;}
+.fortune-block{background:var(--white);border:1px solid var(--border);border-top:none;padding:32px 28px;margin-bottom:32px;}
+.md h3{font-family:'Shippori Mincho B1',serif;font-size:13px;color:var(--gold);letter-spacing:.2em;margin:28px 0 12px;padding:8px 14px;background:var(--gold-pale);border-left:3px solid var(--gold);border-radius:0 4px 4px 0;}
+.md h3:first-child{margin-top:0;}
+.md p{font-size:14px;line-height:2.4;color:var(--ink-mid);font-weight:300;margin-bottom:14px;}
+.md ul{list-style:none;padding:0;margin:8px 0 16px;}
+.md ul li{font-size:13px;line-height:2;color:var(--ink-mid);padding:12px 16px;background:var(--petal-pale);border-left:3px solid var(--petal);margin-bottom:10px;border-radius:0 4px 4px 0;}
+.md ul li strong{font-weight:700;color:var(--ink);display:block;margin-bottom:2px;}
+.md strong{font-weight:600;color:var(--ink);}
+.md em{font-style:normal;color:var(--ink-soft);font-size:12px;line-height:1.9;display:block;margin-top:20px;padding:14px 16px;background:rgba(26,18,24,0.04);border-radius:4px;border-left:3px solid var(--border);}
+.md hr{border:none;border-top:1px solid var(--border);margin:24px 0;}
+.pdf-wrap{margin-top:0;padding:0 0 16px;}
+.pdf-btn{width:100%;padding:16px;background:var(--gold-pale);border:1px solid var(--gold-light);border-radius:4px;font-family:'Shippori Mincho B1',serif;font-size:14px;color:var(--gold);cursor:pointer;letter-spacing:.1em;transition:background .2s;-webkit-appearance:none;appearance:none;}
+.pdf-btn:hover{background:var(--gold-light);}
+.pdf-note{font-size:10px;color:var(--ink-pale);text-align:center;margin-top:8px;line-height:1.8;}
+@media print{
+  .cosmos-bg,.header,.form-section,.agree-wrap,.category-section,.cta-wrap,.loading,.pdf-wrap,.footer{display:none!important;}
+  .result{display:block!important;}
+  .result-header{border:1px solid #e8d8e0;}
+  body{background:#fff;}
+  .page{padding:0 16px;}
+}
+.footer{text-align:center;padding-top:40px;border-top:1px solid var(--border);margin-top:8px;}
+.footer-note{font-size:10px;color:var(--ink-pale);line-height:2.2;letter-spacing:.05em;}
+.agree-wrap{margin-bottom:16px;padding:16px 18px;background:var(--petal-pale);border:1px solid var(--petal-light);border-radius:4px;}
+.agree-label{display:flex;align-items:flex-start;gap:10px;cursor:pointer;}
+.agree-label input[type="checkbox"]{width:18px;height:18px;margin-top:2px;accent-color:var(--ink);cursor:pointer;flex-shrink:0;}
+.agree-text{font-size:12px;color:var(--ink-soft);line-height:1.8;letter-spacing:.03em;}
+.agree-link{color:var(--gold);text-decoration:none;border-bottom:1px solid var(--gold-light);}
+.agree-link:hover{color:var(--ink);}
+.error-msg{background:#fff0f3;border:1px solid #f5c6cb;border-radius:4px;padding:16px 20px;font-size:13px;color:#842029;margin-top:16px;display:none;line-height:1.8;text-align:center;}
+.suki-wrap{text-align:center;margin:0 0 32px;}
+.suki-img{width:100%;max-width:320px;border-radius:16px;box-shadow:0 8px 40px rgba(184,147,74,.15);}
+.suki-bubble{display:inline-block;background:var(--white);border:1px solid var(--border);border-radius:16px 16px 16px 4px;padding:12px 18px;font-family:'Shippori Mincho B1',serif;font-size:13px;color:var(--ink-mid);line-height:1.8;margin-top:12px;max-width:280px;text-align:left;box-shadow:0 2px 12px rgba(184,147,74,.08);}
+.suki-bubble::before{content:'✦ SUKI ';font-size:10px;color:var(--gold);letter-spacing:.1em;display:block;margin-bottom:4px;}
+.suki-mini{display:flex;align-items:center;gap:12px;margin:20px 0;padding:16px;background:var(--white);border:1px solid var(--border);border-radius:12px;}
+.suki-mini-img{width:60px;height:80px;border-radius:8px;object-fit:cover;object-position:top center;flex-shrink:0;border:2px solid var(--gold-light);}
+.suki-mini-text{font-size:12px;color:var(--ink-mid);line-height:1.8;font-family:'Shippori Mincho B1',serif;}
+.suki-mini-name{font-size:10px;color:var(--gold);letter-spacing:.1em;margin-bottom:2px;}
+.invalid-screen{display:none;text-align:center;padding:60px 20px;}
+.invalid-icon{font-size:48px;margin-bottom:20px;}
+.invalid-title{font-family:'Shippori Mincho B1',serif;font-size:20px;color:var(--ink);margin-bottom:12px;}
+.invalid-text{font-size:13px;color:var(--ink-soft);line-height:2;}
+@media(max-width:480px){.page{padding:0 16px 60px;}.header{padding:40px 0 32px;}.fortune-block{padding:22px 18px;}.category-grid{grid-template-columns:repeat(2,1fr);}}
+</style>
+</head>
+<body>
+<div class="cosmos-bg">
+<svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+  <circle cx="600" cy="400" r="40" fill="none" stroke="#7a5c4a" stroke-width="1.2"/>
+  <circle cx="600" cy="400" r="6" fill="#7a5c4a"/>
+  <ellipse cx="600" cy="400" rx="90" ry="60" fill="none" stroke="#7a5c4a" stroke-width="0.6" stroke-dasharray="4 3"/>
+  <circle cx="690" cy="400" r="3" fill="#7a5c4a"/>
+  <ellipse cx="600" cy="400" rx="150" ry="100" fill="none" stroke="#7a5c4a" stroke-width="0.6" stroke-dasharray="6 4"/>
+  <circle cx="600" cy="300" r="4" fill="#7a5c4a"/>
+  <ellipse cx="600" cy="400" rx="220" ry="148" fill="none" stroke="#7a5c4a" stroke-width="0.7"/>
+  <circle cx="820" cy="400" r="4.5" fill="#7a5c4a"/>
+  <ellipse cx="600" cy="400" rx="300" ry="200" fill="none" stroke="#7a5c4a" stroke-width="0.6" stroke-dasharray="8 5"/>
+  <circle cx="600" cy="200" r="3.5" fill="#7a5c4a"/>
+  <ellipse cx="600" cy="400" rx="420" ry="280" fill="none" stroke="#7a5c4a" stroke-width="0.5" stroke-dasharray="10 6"/>
+  <circle cx="178" cy="370" r="7" fill="none" stroke="#7a5c4a" stroke-width="1"/>
+  <circle cx="178" cy="370" r="3" fill="#7a5c4a"/>
+  <ellipse cx="600" cy="400" rx="530" ry="354" fill="none" stroke="#7a5c4a" stroke-width="0.5" stroke-dasharray="12 7"/>
+  <circle cx="600" cy="46" r="6" fill="none" stroke="#7a5c4a" stroke-width="0.8"/>
+  <ellipse cx="600" cy="46" rx="14" ry="4" fill="none" stroke="#7a5c4a" stroke-width="0.8"/>
+  <ellipse cx="600" cy="400" rx="620" ry="413" fill="none" stroke="#7a5c4a" stroke-width="0.4" stroke-dasharray="14 8"/>
+  <ellipse cx="600" cy="400" rx="700" ry="466" fill="none" stroke="#7a5c4a" stroke-width="0.4" stroke-dasharray="16 9"/>
+  <circle cx="200" cy="300" r="1" fill="#7a5c4a"/>
+  <circle cx="350" cy="150" r="1.2" fill="#7a5c4a"/>
+  <circle cx="900" cy="250" r="1" fill="#7a5c4a"/>
+  <circle cx="1050" cy="500" r="1.2" fill="#7a5c4a"/>
+  <circle cx="80" cy="450" r="1" fill="#7a5c4a"/>
+  <circle cx="1150" cy="350" r="1" fill="#7a5c4a"/>
+</svg>
+</div>
+
+<div class="page">
+
+<div class="invalid-screen" id="invalidScreen">
+  <div class="invalid-icon">🔮</div>
+  <div class="invalid-title" id="invalidTitle">このURLは使用済みです</div>
+  <div class="invalid-text" id="invalidText">Each reading URL is valid for one use only.<br>Please purchase again for a new reading.</div>
+</div>
+
+<div id="mainContent">
+<header class="header">
+  <div class="header-eyebrow">Daily Astrology Reading</div>
+  <h1 class="header-title">The stars are<br><em>speaking to you.</em></h1>
+  <p class="header-desc">Right now, the stars have something to say.<br>Enter your birth date and receive<br>a personal message meant just for you.</p>
+</header>
+
+<!-- SUKI: Header -->
+<div class="suki-wrap">
+  <img src="suki.png" alt="占星術師 SUKI" class="suki-img" style="width:100%;max-width:400px;aspect-ratio:3/4;object-fit:cover;object-position:top;" />
+  <div class="suki-bubble">
+    Hi, I'm SUKI.<br>
+    Right now, the stars have<br>
+    something just for you.<br>
+    Shall we listen together?
+  </div>
+</div>
+
+<!-- Nickname -->
+<div class="form-section">
+  <div class="form-label-row">
+    <span class="form-label">Nickname</span>
+    <span class="form-label-sub">For display only · Not stored</span>
+  </div>
+  <input class="form-input" type="text" id="nameInput" placeholder="e.g. Luna" />
+</div>
+
+<!-- Date of Birth -->
+<div class="form-section">
+  <div class="form-label-row">
+    <span class="form-label">Date of Birth</span>
+    <span class="form-label-sub">Used to calculate your zodiac & numerology</span>
+  </div>
+  <div class="dob-grid">
+    <select class="form-input" id="dobYear"><option value="">Year</option></select>
+    <select class="form-input" id="dobMonth"><option value="">Month</option></select>
+    <select class="form-input" id="dobDay"><option value="">Day</option></select>
+  </div>
+  <p class="form-note">* Your birth date is used solely for your reading and is never stored.</p>
+</div>
+
+<!-- Gender -->
+<div class="form-section">
+  <div class="form-label-row">
+    <span class="form-label">Gender</span>
+    <span class="form-label-sub">Optional · Your reading works either way</span>
+  </div>
+  <div class="toggle-grid toggle-grid-3">
+    <button type="button" class="toggle-btn" id="btnFemale" onclick="selectGender('Female')">
+      <span class="icon">👩</span>Female
+    </button>
+    <button type="button" class="toggle-btn" id="btnMale" onclick="selectGender('Male')">
+      <span class="icon">👨</span>Male
+    </button>
+    <button type="button" class="toggle-btn selected" id="btnNoGender" onclick="selectGender('')">
+      <span class="icon">✦</span>Prefer not to say
+    </button>
+  </div>
+</div>
+
+
+
+<!-- Category -->
+<div class="form-section">
+  <div class="form-label-row">
+    <span class="form-label">Reading Focus</span>
+  </div>
+  <p style="font-size:13px;font-weight:500;color:var(--ink);margin-bottom:10px;letter-spacing:.05em;">
+    ✦ Choose up to 3 themes for your reading
+  </p>
+  <p style="font-size:11px;color:var(--ink-pale);margin-bottom:12px;">Leave unselected for an overall reading</p>
+  <div id="catCountMsg" style="font-size:12px;font-weight:500;color:var(--gold);margin-bottom:10px;min-height:18px;"></div>
+  <div class="category-grid">
+    <button type="button" class="cat-btn" id="catOverall" onclick="selectCategory('Overall')">
+      <span class="cat-icon">✦</span>Overall
+    </button>
+    <button type="button" class="cat-btn" id="cat恋愛運" onclick="selectCategory('Love')">
+      <span class="cat-icon">💕</span>Love
+    </button>
+    <button type="button" class="cat-btn" id="cat仕事運" onclick="selectCategory('Career')">
+      <span class="cat-icon">💼</span>Career
+    </button>
+    <button type="button" class="cat-btn" id="cat金運" onclick="selectCategory('Abundance')">
+      <span class="cat-icon">✨</span>Abundance
+    </button>
+    <button type="button" class="cat-btn" id="cat健康運" onclick="selectCategory('Health')">
+      <span class="cat-icon">🌿</span>Health
+    </button>
+    <button type="button" class="cat-btn" id="cat人間関係" onclick="selectCategory('Connections')">
+      <span class="cat-icon">🤝</span>Connections
+    </button>
+  </div>
+</div>
+
+<!-- Terms Agreement -->
+<div class="agree-wrap" style="margin-bottom:16px;">
+  <label class="agree-label">
+    <input type="checkbox" id="agreeCheck" onchange="toggleBtn()" />
+    <span class="agree-text">
+      I have read and agree to the <a href="terms-en.html" target="_blank" class="agree-link">Terms of Service & Disclaimer</a>
+    </span>
+  </label>
+</div>
+<div id="agreeMsg" style="display:none;margin-bottom:12px;padding:10px 14px;background:#fff0f3;border:1px solid #f5c6cb;border-radius:4px;font-size:12px;color:#842029;line-height:1.8;">
+  ✋ Please read and agree to the <a href="terms-en.html" target="_blank" style="color:#842029;font-weight:600;text-decoration:underline;">Terms of Service</a> before continuing.
+</div>
+
+<div class="cta-wrap">
+  <button type="button" class="cta-btn" id="fortuneBtn" onclick="startFortune()">Ask the Stars</button>
+</div>
+<div class="error-msg" id="errorMsg"></div>
+
+<div class="loading" id="loading">
+  <span class="loading-symbol">✦</span>
+  <div class="loading-text" id="loadingText">Listening to the stars...</div>
+  <div style="font-size:11px;color:var(--ink-pale);margin-top:12px;letter-spacing:.1em;">Please wait a moment...</div>
+</div>
+
+<div class="result" id="result">
+  <!-- SUKI: Reading Header -->
+  <div class="suki-mini">
+    <img src="suki.png" alt="SUKI" class="suki-mini-img" />
+    <div>
+      <div class="suki-mini-name">✦ ASTROLOGER SUKI</div>
+      <div class="suki-mini-text">The stars have something to share.<br>Cherish this moment, just for you.</div>
+    </div>
+  </div>
+
+  <div class="result-header">
+    <div class="result-date" id="resDate"></div>
+    <div class="result-sign-row">
+      <span class="result-sign-symbol" id="resSymbol"></span>
+      <span class="result-sign-name" id="resSignName"></span>
+    </div>
+    <div class="result-person" id="resPerson"></div>
+    <div class="result-category-badge" id="resCategoryBadge"></div>
+  </div>
+  <div class="fortune-block">
+    <div id="resMarkdown" class="md"></div>
+  </div>
+  <!-- SUKI: Closing Message -->
+  <div class="suki-mini" id="sukiEnd" style="display:none;">
+    <img src="suki.png" alt="SUKI" class="suki-mini-img" />
+    <div>
+      <div class="suki-mini-name">✦ ASTROLOGER SUKI</div>
+      <div class="suki-mini-text">The stars are always with you.<br>Save your reading as a PDF to keep it.<br>Come back anytime. ✦</div>
+    </div>
+  </div>
+
+  <div class="pdf-wrap" id="pdfWrap" style="display:none;">
+    <button type="button" class="pdf-btn" onclick="savePDF()">📄 Save Your Reading as PDF</button>
+    <p class="pdf-note">* Select "Save as PDF" in the print dialog</p>
+  </div>
+</div>
+</div>
+
+<footer class="footer">
+  <p class="footer-note">This content is for entertainment purposes only.<br>Please consult a professional for important decisions.</p>
+  <p style="margin-top:12px;font-size:11px;">
+    <a href="terms-en.html" target="_blank" style="color:var(--gold);text-decoration:none;letter-spacing:.08em;">利用規約・免責事項</a>
+    　｜　
+    <a href="terms-en.html#support" target="_blank" style="color:var(--gold);text-decoration:none;letter-spacing:.05em;">Support</a>
+  </p>
+</footer>
+</div>
+
+<script>
+var WORKER_URL='https://uranai-worker-en.suukii01.workers.dev';
+var selectedGender='';
+var currentToken='';
+
+function getZodiac(m,d){
+  if((m===1&&d<=19)||(m===12&&d>=22))return {name:'山羊座',symbol:'♑'};
+  if((m===1&&d>=20)||(m===2&&d<=18))return {name:'水瓶座',symbol:'♒'};
+  if((m===2&&d>=19)||(m===3&&d<=20))return {name:'魚座',symbol:'♓'};
+  if((m===3&&d>=21)||(m===4&&d<=19))return {name:'牡羊座',symbol:'♈'};
+  if((m===4&&d>=20)||(m===5&&d<=20))return {name:'牡牛座',symbol:'♉'};
+  if((m===5&&d>=21)||(m===6&&d<=21))return {name:'双子座',symbol:'♊'};
+  if((m===6&&d>=22)||(m===7&&d<=22))return {name:'蟹座',symbol:'♋'};
+  if((m===7&&d>=23)||(m===8&&d<=22))return {name:'獅子座',symbol:'♌'};
+  if((m===8&&d>=23)||(m===9&&d<=22))return {name:'乙女座',symbol:'♍'};
+  if((m===9&&d>=23)||(m===10&&d<=23))return {name:'天秤座',symbol:'♎'};
+  if((m===10&&d>=24)||(m===11&&d<=22))return {name:'蠍座',symbol:'♏'};
+  // 蛇使い座の期間（11月29日〜12月17日）は射手座と並記
+  if((m===11&&d>=29)||(m===12&&d<=17))return {name:'射手座（⛎蛇使い座）',symbol:'♐',ophiuchus:true};
+  if((m===11&&d>=23)||(m===12&&d<=21))return {name:'射手座',symbol:'♐'};
+  return {name:'山羊座',symbol:'♑'};
+}
+
+function getLifeNumber(y,m,d){
+  var s=(String(y)+String(m)+String(d)).split('').reduce(function(a,c){return a+parseInt(c);},0);
+  while(s>9&&s!==11&&s!==22){
+    s=String(s).split('').reduce(function(a,c){return a+parseInt(c);},0);
+  }
+  return s;
+}
+
+function formatDateJP(dateStr){
+  var t=new Date();
+  var wd=['日','月','火','水','木','金','土'];
+  var h=t.getHours();
+  var timeLabel=h<6?'late night':h<10?'morning':h<13?'midday':h<17?'afternoon':h<21?'evening':'night';
+  return t.getFullYear()+'年'+(t.getMonth()+1)+'月'+t.getDate()+'日（'+wd[t.getDay()]+'）'+timeLabel;
+}
+
+function toggleBtn(){
+  // チェック時にメッセージを非表示にする
+  if(document.getElementById('agreeCheck').checked){
+    document.getElementById('agreeMsg').style.display='none';
+  }
+}
+
+function selectGender(gender){
+  selectedGender=gender;
+  document.getElementById('btnFemale').classList.remove('selected');
+  document.getElementById('btnMale').classList.remove('selected');
+  document.getElementById('btnNoGender').classList.remove('selected');
+  if(gender==='女性')document.getElementById('btnFemale').classList.add('selected');
+  else if(gender==='Male'document.getElementById('btnMale').classList.add('selected');
+  else document.getElementById('btnNoGender').classList.add('selected');
+}
+
+function selectDateMode(mode){
+  document.getElementById('btnToday').classList.remove('selected');
+  document.getElementById('btnOther').classList.remove('selected');
+  if(mode==='today'){
+    document.getElementById('btnToday').classList.add('selected');
+    document.getElementById('otherDateWrap').style.display='none';
+    document.getElementById('fortuneDateInput').value='';
+  } else {
+    document.getElementById('btnOther').classList.add('selected');
+    document.getElementById('otherDateWrap').style.display='block';
+  }
+}
+
+var selectedCategories=[];
+
+function selectCategory(name){
+  var idx=selectedCategories.indexOf(name);
+  if(idx>=0){
+    // 選択解除
+    selectedCategories.splice(idx,1);
+    document.getElementById('cat'+name).classList.remove('selected');
+  } else {
+    if(selectedCategories.length>=3){
+      alert('You can select up to 3 categories');
+      return;
+    }
+    selectedCategories.push(name);
+    document.getElementById('cat'+name).classList.add('selected');
+  }
+  // カウント表示
+  var msg=document.getElementById('catCountMsg');
+  if(selectedCategories.length>0){
+    msg.textContent='選択中：'+selectedCategories.join('・')+'（'+selectedCategories.length+'/3）';
+  } else {
+    msg.textContent='';
+  }
+}
+
+function getTokenFromURL(){
+  var params=new URLSearchParams(window.location.search);
+  return params.get('token')||'';
+}
+
+async function verifyToken(token){
+  try{
+    var res=await fetch(WORKER_URL+'/verify-token',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({token:token})
+    });
+    return await res.json();
+  }catch(e){return {valid:false,reason:'error'};}
+}
+
+function showInvalidScreen(title,text){
+  document.getElementById('mainContent').style.display='none';
+  document.getElementById('invalidScreen').style.display='block';
+  document.getElementById('invalidTitle').textContent=title;
+  document.getElementById('invalidText').innerHTML=text;
+}
+
+window.addEventListener('DOMContentLoaded',async function(){
+  // Initialize date of birth selectors
+  var yearSel=document.getElementById('dobYear');
+  var now=new Date().getFullYear();
+  for(var y=now;y>=1930;y--){
+    var opt=document.createElement('option');
+    opt.value=y;opt.textContent=y;
+    yearSel.appendChild(opt);
+  }
+  var monthSel=document.getElementById('dobMonth');
+  var monthNames=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  for(var m=1;m<=12;m++){
+    var opt2=document.createElement('option');
+    opt2.value=m;opt2.textContent=monthNames[m-1];
+    monthSel.appendChild(opt2);
+  }
+  var daySel=document.getElementById('dobDay');
+  for(var d=1;d<=31;d++){
+    var opt3=document.createElement('option');
+    opt3.value=d;opt3.textContent=d;
+    daySel.appendChild(opt3);
+  }
+
+  // URLパラメータからカテゴリーを自動選択
+  var params=new URLSearchParams(window.location.search);
+  var categoryParam=params.get('category');
+  var categoryMap={
+    'total':'総合運','love':'恋愛運','work':'仕事運',
+    'money':'金運','health':'健康運','human':'人間関係'
+  };
+  if(categoryParam && categoryMap[categoryParam]){
+    var autoCategory=categoryMap[categoryParam];
+    selectedCategories=[autoCategory];
+    var catBtn=document.getElementById('cat'+autoCategory);
+    if(catBtn) catBtn.classList.add('selected');
+  }
+
+  // トークン検証
+  currentToken=getTokenFromURL();
+  if(currentToken){
+    var result=await verifyToken(currentToken);
+    if(!result.valid){
+      if(result.reason==='used'){
+        // 使用済みの場合、保存された結果を取得して再表示
+        try{
+          var savedRes=await fetch(WORKER_URL+'/get-result',{
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({token:currentToken})
+          });
+          var savedData=await savedRes.json();
+          if(savedData.markdown){
+            // 保存された結果を再表示
+            document.getElementById('mainContent').style.display='block';
+            document.getElementById('resDate').textContent='(Saved Reading)';
+            document.getElementById('resSymbol').textContent='✦';
+            document.getElementById('resSignName').textContent='';
+            document.getElementById('resPerson').textContent='Your Previous Reading';
+            document.getElementById('resCategoryBadge').textContent=savedData.category||'';
+            document.getElementById('resMarkdown').innerHTML=renderMarkdown(savedData.markdown||'');
+            document.getElementById('result').style.display='block';
+            document.getElementById('pdfWrap').style.display='block';
+            document.getElementById('sukiEnd').style.display='flex';
+            // フォームを非表示
+            document.querySelectorAll('.form-section,.agree-wrap,.cta-wrap,.category-section,.suki-wrap').forEach(function(el){el.style.display='none';});
+            // 再表示メッセージ
+            var notice=document.createElement('div');
+            notice.style.cssText='background:#fff0f3;border:1px solid #f5c6cb;border-radius:4px;padding:12px 16px;font-size:12px;color:#842029;margin-bottom:16px;line-height:1.8;';
+            notice.innerHTML='📋 Showing your previous reading.<br>Please save it as a PDF.';
+            document.getElementById('result').insertBefore(notice,document.getElementById('result').firstChild);
+            return;
+          }
+        }catch(e){}
+        showInvalidScreen('This URL has already been used','Each reading URL is valid for one use only.<br>Please purchase again for a new reading.');
+      } else if(result.reason==='expired'){
+        showInvalidScreen('This URL has expired','This link was valid for 24 hours.<br>Please purchase again for a new reading.');
+      } else {
+        showInvalidScreen('This URL is not valid','Please check that you have the correct URL.');
+      }
+    }
+  }
+});
+
+function convertLinks(text){
+  return text.replace(/\[([^\]]+)\]\(([^)]+)\)/g,function(m,t,u){
+    return '<a href="'+u+'" target="_blank" style="color:var(--gold);text-decoration:none;border-bottom:1px solid var(--gold-light);">'+t+'</a>';
+  });
+}
+
+var loadingTimer = null;
+var loadingMessages = [
+  'Listening to the stars...',
+  'Reading the celestial alignment...',
+  'SUKI is crafting your message...',
+  'Almost there, just a little longer...',
+  'Delivering your message with care...'
+];
+
+function startLoadingMessages(){
+  var i = 0;
+  document.getElementById('loadingText').textContent = loadingMessages[0];
+  loadingTimer = setInterval(function(){
+    i = (i + 1) % loadingMessages.length;
+    var el = document.getElementById('loadingText');
+    if(el) el.textContent = loadingMessages[i];
+  }, 3000);
+}
+
+function stopLoadingMessages(){
+  if(loadingTimer){ clearInterval(loadingTimer); loadingTimer = null; }
+}
+
+function renderMarkdown(text){
+  var lines=text.split('\n');
+  var html='';
+  var inList=false;
+  for(var i=0;i<lines.length;i++){
+    var line=lines[i];
+    if(line==='---'){
+      if(inList){html+='</ul>';inList=false;}
+      html+='<hr>';
+    } else if(line.indexOf('## ')===0){
+      if(inList){html+='</ul>';inList=false;}
+      var h2=line.replace('## ','');
+      html+='<h2 style="font-family:serif;font-size:14px;color:var(--petal);letter-spacing:.15em;margin:28px 0 12px;padding:8px 14px;background:var(--petal-pale);border-left:3px solid var(--petal);border-radius:0 4px 4px 0;">'+convertLinks(h2)+'</h2>';
+    } else if(line.indexOf('### ')===0){
+      if(inList){html+='</ul>';inList=false;}
+      html+='<h3>'+convertLinks(line.replace('### ',''))+'</h3>';
+    } else if(line.indexOf('* ')===0){
+      if(!inList){html+='<ul>';inList=true;}
+      var li=line.replace('* ','');
+      li=li.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');
+      li=convertLinks(li);
+      html+='<li>'+li+'</li>';
+    } else if(line.trim()===''){
+      if(inList){html+='</ul>';inList=false;}
+    } else {
+      if(inList){html+='</ul>';inList=false;}
+      var p=line.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');
+      p=p.replace(/\*([^*]+)\*/g,'<em>$1</em>');
+      p=convertLinks(p);
+      html+='<p>'+p+'</p>';
+    }
+  }
+  if(inList)html+='</ul>';
+  return html;
+}
+
+async function startFortune(){
+  var name=document.getElementById('nameInput').value.trim();
+  var dobY=document.getElementById('dobYear').value;
+  var dobM=document.getElementById('dobMonth').value;
+  var dobD=document.getElementById('dobDay').value;
+  var fortuneDate='';
+
+  document.getElementById('errorMsg').style.display='none';
+  if(!document.getElementById('agreeCheck').checked){
+    var agreeMsg=document.getElementById('agreeMsg');
+    agreeMsg.style.display='block';
+    agreeMsg.scrollIntoView({behavior:'smooth',block:'center'});
+    return;
+  }
+  document.getElementById('agreeMsg').style.display='none';
+  if(!name){alert('Please enter your nickname');return;}
+  if(!dobY||!dobM||!dobD){alert('Please select your full date of birth');return;}
+
+  var y=parseInt(dobY);
+  var m=parseInt(dobM);
+  var d=parseInt(dobD);
+  var zodiac=getZodiac(m,d);
+  var lifeNum=getLifeNumber(y,m,d);
+  var targetDate=fortuneDate?new Date(fortuneDate):new Date();
+  var todayStr=targetDate.getFullYear()+'年'+(targetDate.getMonth()+1)+'月'+targetDate.getDate()+'日';
+
+  document.getElementById('result').style.display='none';
+  document.getElementById('loading').style.display='block';
+  startLoadingMessages();
+  document.getElementById('fortuneBtn').disabled=true;
+  window.scrollTo({top:document.getElementById('loading').offsetTop-40,behavior:'smooth'});
+
+  try{
+    var res=await fetch(WORKER_URL+'/',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        name:name,
+        zodiac:zodiac.name,
+        zodiacSymbol:zodiac.symbol,
+        lifeNum:lifeNum,
+        birthYear:y,
+        birthMonth:m,
+        birthDay:d,
+        todayStr:todayStr,
+        categories:selectedCategories.length>0?selectedCategories:['Overall'],
+        gender:selectedGender,
+        token:currentToken
+      })
+    });
+
+    var f=await res.json();
+
+    if(!res.ok){
+      if(f.error&&(f.error.indexOf('使用済み')>=0||f.error.indexOf('無効')>=0||f.error.indexOf('有効期限')>=0)){
+        document.getElementById('loading').style.display='none';
+        showInvalidScreen(f.error,'');
+        return;
+      }
+      throw new Error(f.error||'HTTP '+res.status);
+    }
+
+    document.getElementById('resDate').textContent=formatDateJP(fortuneDate);
+    document.getElementById('resSymbol').textContent=zodiac.symbol;
+    document.getElementById('resSignName').textContent=zodiac.name;
+    document.getElementById('resPerson').textContent='A reading for '+name;
+    var cats=selectedCategories.length>0?selectedCategories:['Overall'];
+    document.getElementById('resCategoryBadge').textContent='✦ '+cats.join('・');
+    document.getElementById('resMarkdown').innerHTML=renderMarkdown(f.markdown||'');
+
+    stopLoadingMessages();
+    document.getElementById('loading').style.display='none';
+    document.getElementById('result').style.display='block';
+    document.getElementById('fortuneBtn').disabled=true;
+    document.getElementById('fortuneBtn').textContent='Reading Complete';
+    document.getElementById('pdfWrap').style.display='block';
+    document.getElementById('sukiEnd').style.display='flex';
+    setTimeout(function(){window.scrollTo({top:document.getElementById('result').offsetTop-20,behavior:'smooth'});},100);
+
+  }catch(e){
+    stopLoadingMessages();
+    document.getElementById('loading').style.display='none';
+    var el=document.getElementById('errorMsg');
+    el.textContent='Something went wrong. Please try again in a moment.';
+    el.style.display='block';
+    document.getElementById('fortuneBtn').disabled=false;
+    console.error(e);
+  }
+}
+
+function savePDF(){
+  window.print();
+}
+</script>
+</body>
+</html>
