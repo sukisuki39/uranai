@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Token Issue | SUKI Astrology</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Noto Sans JP',sans-serif;background:#fdf8f5;color:#1a1218;min-height:100vh;padding:24px 16px;-webkit-font-smoothing:antialiased;}
+.page{max-width:480px;margin:0 auto;}
+.header{text-align:center;padding:32px 0 28px;border-bottom:1px solid #e8d8e0;margin-bottom:28px;}
+.header-eyebrow{font-size:10px;letter-spacing:.35em;color:#b8934a;margin-bottom:10px;}
+.header-title{font-size:20px;font-weight:500;color:#1a1218;letter-spacing:.06em;}
+.card{background:#fff;border:1px solid #e8d8e0;border-radius:8px;padding:24px;margin-bottom:16px;}
+.label{font-size:12px;color:#7a6070;letter-spacing:.05em;margin-bottom:8px;}
+.input{width:100%;padding:14px 16px;background:#fdf8f5;border:1px solid #e8d8e0;border-radius:6px;font-family:'Noto Sans JP',sans-serif;font-size:16px;color:#1a1218;outline:none;-webkit-appearance:none;appearance:none;}
+.input:focus{border-color:#d4a0b5;box-shadow:0 0 0 3px rgba(212,160,181,.12);}
+.btn{width:100%;padding:16px;background:#1a1218;color:#fdf8f5;border:none;border-radius:6px;font-family:'Noto Sans JP',sans-serif;font-size:15px;font-weight:500;letter-spacing:.15em;cursor:pointer;margin-top:16px;-webkit-appearance:none;appearance:none;}
+.btn:active{background:#3d2e38;}
+.btn:disabled{background:#b09aa8;cursor:not-allowed;}
+.result-card{background:#fff;border:1px solid #e8d8e0;border-radius:8px;padding:24px;margin-bottom:16px;display:none;}
+.result-label{font-size:11px;color:#b8934a;letter-spacing:.1em;margin-bottom:10px;}
+.result-url{font-size:12px;color:#3d2e38;word-break:break-all;line-height:1.8;background:#fdf8f5;padding:12px;border-radius:4px;border:1px solid #e8d8e0;margin-bottom:14px;}
+.copy-btn{width:100%;padding:14px;background:#b8934a;color:#fff;border:none;border-radius:6px;font-family:'Noto Sans JP',sans-serif;font-size:14px;cursor:pointer;-webkit-appearance:none;appearance:none;letter-spacing:.1em;}
+.copy-btn:active{background:#9a7a3a;}
+.error-msg{background:#fff0f3;border:1px solid #f5c6cb;border-radius:6px;padding:12px 16px;font-size:12px;color:#842029;margin-top:12px;display:none;line-height:1.8;}
+.history-card{background:#fff;border:1px solid #e8d8e0;border-radius:8px;padding:20px;margin-bottom:12px;}
+.history-title{font-size:12px;color:#7a6070;letter-spacing:.05em;margin-bottom:12px;border-bottom:1px solid #e8d8e0;padding-bottom:8px;}
+.history-item{font-size:11px;color:#3d2e38;padding:8px 0;border-bottom:1px solid #fdf8f5;display:flex;justify-content:space-between;align-items:center;gap:8px;}
+.history-item:last-child{border-bottom:none;}
+.history-url{flex:1;word-break:break-all;line-height:1.6;}
+.history-copy{background:#f7f0e3;border:1px solid #dfc898;border-radius:4px;padding:4px 8px;font-size:10px;color:#b8934a;cursor:pointer;white-space:nowrap;-webkit-appearance:none;appearance:none;}
+.note{font-size:10px;color:#b09aa8;text-align:center;line-height:1.8;margin-top:8px;}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div class="header-eyebrow">ADMIN</div>
+    <div class="header-title">✦ Issue Token</div>
+  </div>
+
+  <div class="card">
+    <div class="label">シークレットキー</div>
+    <input class="input" type="password" id="secretInput" placeholder="Enter secret key" />
+    <button class="btn" id="issueBtn" onclick="issueToken()">Issue Token</button>
+    <div class="error-msg" id="errorMsg"></div>
+  </div>
+
+  <div class="result-card" id="resultCard">
+    <div class="result-label">✦ Issued URL (Valid 24hrs · One-time use)</div>
+    <div class="result-url" id="resultUrl"></div>
+    <button class="copy-btn" id="copyBtn" onclick="copyUrl()">📋 Copy URL</button>
+  </div>
+
+  <div class="history-card" id="historyCard" style="display:none;">
+    <div class="history-title">📋 Issued this session</div>
+    <div id="historyList"></div>
+  </div>
+
+  <p class="note">This page is for admin use only. Do not share this URL.</p>
+
+</div>
+
+<script>
+var WORKER_URL = 'https://uranai-worker-en.suukii01.workers.dev';
+var issuedUrls = [];
+
+async function issueToken(){
+  var secret = document.getElementById('secretInput').value.trim();
+  var errorMsg = document.getElementById('errorMsg');
+  var btn = document.getElementById('issueBtn');
+
+  errorMsg.style.display = 'none';
+
+  if(!secret){
+    errorMsg.textContent = 'Please enter the secret key';
+    errorMsg.style.display = 'block';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Issuing...';
+
+  try {
+    var res = await fetch(WORKER_URL + '/issue-token', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({secret: secret})
+    });
+
+    var data = await res.json();
+
+    if(!res.ok){
+      throw new Error(data.error || '発行に失敗しました');
+    }
+
+    var fortuneUrl = 'https://sukisuki39.github.io/uranai/index.html?token=' + data.token;
+
+    // 結果表示
+    document.getElementById('resultUrl').textContent = fortuneUrl;
+    document.getElementById('resultCard').style.display = 'block';
+    document.getElementById('copyBtn').textContent = '📋 URLをコピーする';
+
+    // 履歴に追加
+    issuedUrls.push(fortuneUrl);
+    updateHistory();
+
+    // スクロール
+    setTimeout(function(){
+      document.getElementById('resultCard').scrollIntoView({behavior:'smooth', block:'start'});
+    }, 100);
+
+  } catch(e) {
+    errorMsg.textContent = e.message === 'Unauthorized' ? 'Incorrect secret key' : e.message;
+    errorMsg.style.display = 'block';
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Issue Token';
+}
+
+function copyUrl(){
+  var url = document.getElementById('resultUrl').textContent;
+  navigator.clipboard.writeText(url).then(function(){
+    var btn = document.getElementById('copyBtn');
+    btn.textContent = '✅ Copied!';
+    setTimeout(function(){ btn.textContent = '📋 Copy URL'; }, 2000);
+  }).catch(function(){
+    // iOSフォールバック
+    var el = document.createElement('textarea');
+    el.value = url;
+    el.style.position = 'fixed';
+    el.style.opacity = '0';
+    document.body.appendChild(el);
+    el.select();
+    el.setSelectionRange(0, 99999);
+    document.execCommand('copy');
+    document.body.removeChild(el);
+    var btn = document.getElementById('copyBtn');
+    btn.textContent = '✅ Copied!';
+    setTimeout(function(){ btn.textContent = '📋 Copy URL'; }, 2000);
+  });
+}
+
+function copyHistoryUrl(url){
+  navigator.clipboard.writeText(url).catch(function(){
+    var el = document.createElement('textarea');
+    el.value = url;
+    el.style.position = 'fixed';
+    el.style.opacity = '0';
+    document.body.appendChild(el);
+    el.select();
+    el.setSelectionRange(0, 99999);
+    document.execCommand('copy');
+    document.body.removeChild(el);
+  });
+}
+
+function updateHistory(){
+  if(issuedUrls.length === 0) return;
+  var card = document.getElementById('historyCard');
+  var list = document.getElementById('historyList');
+  card.style.display = 'block';
+  list.innerHTML = '';
+  issuedUrls.forEach(function(url, i){
+    var item = document.createElement('div');
+    item.className = 'history-item';
+    item.innerHTML =
+      '<span class="history-url">' + (i+1) + '. ' + url + '</span>' +
+      '<button class="history-copy" onclick="copyHistoryUrl(\'' + url + '\')">コピー</button>';
+    list.appendChild(item);
+  });
+}
+
+// Enterキーで発行
+document.getElementById('secretInput').addEventListener('keypress', function(e){
+  if(e.key === 'Enter') issueToken();
+});
+</script>
+</body>
+</html>
