@@ -317,21 +317,21 @@ var selectedGender='';
 var currentToken='';
 
 function getZodiac(m,d){
-  if((m===1&&d<=19)||(m===12&&d>=22))return {name:'山羊座',symbol:'♑'};
-  if((m===1&&d>=20)||(m===2&&d<=18))return {name:'水瓶座',symbol:'♒'};
-  if((m===2&&d>=19)||(m===3&&d<=20))return {name:'魚座',symbol:'♓'};
-  if((m===3&&d>=21)||(m===4&&d<=19))return {name:'牡羊座',symbol:'♈'};
-  if((m===4&&d>=20)||(m===5&&d<=20))return {name:'牡牛座',symbol:'♉'};
-  if((m===5&&d>=21)||(m===6&&d<=21))return {name:'双子座',symbol:'♊'};
-  if((m===6&&d>=22)||(m===7&&d<=22))return {name:'蟹座',symbol:'♋'};
-  if((m===7&&d>=23)||(m===8&&d<=22))return {name:'獅子座',symbol:'♌'};
-  if((m===8&&d>=23)||(m===9&&d<=22))return {name:'乙女座',symbol:'♍'};
-  if((m===9&&d>=23)||(m===10&&d<=23))return {name:'天秤座',symbol:'♎'};
-  if((m===10&&d>=24)||(m===11&&d<=22))return {name:'蠍座',symbol:'♏'};
-  // 蛇使い座の期間（11月29日〜12月17日）は射手座と並記
-  if((m===11&&d>=29)||(m===12&&d<=17))return {name:'射手座（⛎蛇使い座）',symbol:'♐',ophiuchus:true};
-  if((m===11&&d>=23)||(m===12&&d<=21))return {name:'射手座',symbol:'♐'};
-  return {name:'山羊座',symbol:'♑'};
+  if((m===1&&d<=19)||(m===12&&d>=22))return {name:'Capricorn',symbol:'♑'};
+  if((m===1&&d>=20)||(m===2&&d<=18))return {name:'Aquarius',symbol:'♒'};
+  if((m===2&&d>=19)||(m===3&&d<=20))return {name:'Pisces',symbol:'♓'};
+  if((m===3&&d>=21)||(m===4&&d<=19))return {name:'Aries',symbol:'♈'};
+  if((m===4&&d>=20)||(m===5&&d<=20))return {name:'Taurus',symbol:'♉'};
+  if((m===5&&d>=21)||(m===6&&d<=21))return {name:'Gemini',symbol:'♊'};
+  if((m===6&&d>=22)||(m===7&&d<=22))return {name:'Cancer',symbol:'♋'};
+  if((m===7&&d>=23)||(m===8&&d<=22))return {name:'Leo',symbol:'♌'};
+  if((m===8&&d>=23)||(m===9&&d<=22))return {name:'Virgo',symbol:'♍'};
+  if((m===9&&d>=23)||(m===10&&d<=23))return {name:'Libra',symbol:'♎'};
+  if((m===10&&d>=24)||(m===11&&d<=22))return {name:'Scorpio',symbol:'♏'};
+  // Ophiuchus period (Nov 29 - Dec 17) shown alongside Sagittarius
+  if((m===11&&d>=29)||(m===12&&d<=17))return {name:'Sagittarius (⛎ Ophiuchus)',symbol:'♐',ophiuchus:true};
+  if((m===11&&d>=23)||(m===12&&d<=21))return {name:'Sagittarius',symbol:'♐'};
+  return {name:'Capricorn',symbol:'♑'};
 }
 
 function getLifeNumber(y,m,d){
@@ -344,14 +344,15 @@ function getLifeNumber(y,m,d){
 
 function formatDateJP(dateStr){
   var t=new Date();
-  var wd=['日','月','火','水','木','金','土'];
+  var wd=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  var months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   var h=t.getHours();
   var timeLabel=h<6?'late night':h<10?'morning':h<13?'midday':h<17?'afternoon':h<21?'evening':'night';
-  return t.getFullYear()+'年'+(t.getMonth()+1)+'月'+t.getDate()+'日（'+wd[t.getDay()]+'）'+timeLabel;
+  return months[t.getMonth()]+' '+t.getDate()+', '+t.getFullYear()+' ('+wd[t.getDay()]+') · '+timeLabel;
 }
 
 function toggleBtn(){
-  // チェック時にメッセージを非表示にする
+  // Hide message when checked
   if(document.getElementById('agreeCheck').checked){
     document.getElementById('agreeMsg').style.display='none';
   }
@@ -362,7 +363,7 @@ function selectGender(gender){
   document.getElementById('btnFemale').classList.remove('selected');
   document.getElementById('btnMale').classList.remove('selected');
   document.getElementById('btnNoGender').classList.remove('selected');
-  if(gender==='女性')document.getElementById('btnFemale').classList.add('selected');
+  if(gender==='Female')document.getElementById('btnFemale').classList.add('selected');
   else if(gender==='Male'document.getElementById('btnMale').classList.add('selected');
   else document.getElementById('btnNoGender').classList.add('selected');
 }
@@ -385,7 +386,7 @@ var selectedCategories=[];
 function selectCategory(name){
   var idx=selectedCategories.indexOf(name);
   if(idx>=0){
-    // 選択解除
+    // Deselect
     selectedCategories.splice(idx,1);
     document.getElementById('cat'+name).classList.remove('selected');
   } else {
@@ -396,10 +397,10 @@ function selectCategory(name){
     selectedCategories.push(name);
     document.getElementById('cat'+name).classList.add('selected');
   }
-  // カウント表示
+  // Show count
   var msg=document.getElementById('catCountMsg');
   if(selectedCategories.length>0){
-    msg.textContent='選択中：'+selectedCategories.join('・')+'（'+selectedCategories.length+'/3）';
+    msg.textContent='Selected: '+selectedCategories.join(', ')+' ('+selectedCategories.length+'/3)';
   } else {
     msg.textContent='';
   }
@@ -451,12 +452,12 @@ window.addEventListener('DOMContentLoaded',async function(){
     daySel.appendChild(opt3);
   }
 
-  // URLパラメータからカテゴリーを自動選択
+  // Auto-select category from URL parameter
   var params=new URLSearchParams(window.location.search);
   var categoryParam=params.get('category');
   var categoryMap={
-    'total':'総合運','love':'恋愛運','work':'仕事運',
-    'money':'金運','health':'健康運','human':'人間関係'
+    'total':'Overall','love':'Love','work':'Career',
+    'money':'Abundance','health':'Health','human':'Connections'
   };
   if(categoryParam && categoryMap[categoryParam]){
     var autoCategory=categoryMap[categoryParam];
@@ -465,13 +466,13 @@ window.addEventListener('DOMContentLoaded',async function(){
     if(catBtn) catBtn.classList.add('selected');
   }
 
-  // トークン検証
+  // Verify token
   currentToken=getTokenFromURL();
   if(currentToken){
     var result=await verifyToken(currentToken);
     if(!result.valid){
       if(result.reason==='used'){
-        // 使用済みの場合、保存された結果を取得して再表示
+        // If used, fetch saved result and display
         try{
           var savedRes=await fetch(WORKER_URL+'/get-result',{
             method:'POST',
@@ -480,7 +481,7 @@ window.addEventListener('DOMContentLoaded',async function(){
           });
           var savedData=await savedRes.json();
           if(savedData.markdown){
-            // 保存された結果を再表示
+            // Show saved result
             document.getElementById('mainContent').style.display='block';
             document.getElementById('resDate').textContent='(Saved Reading)';
             document.getElementById('resSymbol').textContent='✦';
@@ -491,9 +492,9 @@ window.addEventListener('DOMContentLoaded',async function(){
             document.getElementById('result').style.display='block';
             document.getElementById('pdfWrap').style.display='block';
             document.getElementById('sukiEnd').style.display='flex';
-            // フォームを非表示
+            // Hide form
             document.querySelectorAll('.form-section,.agree-wrap,.cta-wrap,.category-section,.suki-wrap').forEach(function(el){el.style.display='none';});
-            // 再表示メッセージ
+            // Re-display message
             var notice=document.createElement('div');
             notice.style.cssText='background:#fff0f3;border:1px solid #f5c6cb;border-radius:4px;padding:12px 16px;font-size:12px;color:#842029;margin-bottom:16px;line-height:1.8;';
             notice.innerHTML='📋 Showing your previous reading.<br>Please save it as a PDF.';
@@ -600,7 +601,7 @@ async function startFortune(){
   var zodiac=getZodiac(m,d);
   var lifeNum=getLifeNumber(y,m,d);
   var targetDate=fortuneDate?new Date(fortuneDate):new Date();
-  var todayStr=targetDate.getFullYear()+'年'+(targetDate.getMonth()+1)+'月'+targetDate.getDate()+'日';
+  var todayStr=targetDate.getFullYear()+'/'+(targetDate.getMonth()+1)+'/'+targetDate.getDate();
 
   document.getElementById('result').style.display='none';
   document.getElementById('loading').style.display='block';
@@ -630,7 +631,7 @@ async function startFortune(){
     var f=await res.json();
 
     if(!res.ok){
-      if(f.error&&(f.error.indexOf('使用済み')>=0||f.error.indexOf('無効')>=0||f.error.indexOf('有効期限')>=0)){
+      if(f.error&&(f.error.indexOf('already been used')>=0||f.error.indexOf('not valid')>=0||f.error.indexOf('expired')>=0)){
         document.getElementById('loading').style.display='none';
         showInvalidScreen(f.error,'');
         return;
