@@ -642,7 +642,7 @@ async function startFortune(){
     document.getElementById('resDate').textContent=formatDateJP(fortuneDate);
     document.getElementById('resSymbol').textContent=zodiac.symbol;
     document.getElementById('resSignName').textContent=zodiac.name;
-    document.getElementById('resPerson').textContent='A reading for '+name;
+    document.getElementById('resPerson').textContent='A reading for you, '+name+' ✦';
     var cats=selectedCategories.length>0?selectedCategories:['Overall'];
     document.getElementById('resCategoryBadge').textContent='✦ '+cats.join('・');
     document.getElementById('resMarkdown').innerHTML=renderMarkdown(f.markdown||'');
