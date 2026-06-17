@@ -325,12 +325,12 @@ var currentToken='';
 
 // SUKIの締めの言葉（ランダム表示用）
 var sukiQuotes=[
-  '「ありがとう」という言葉には、不思議な力があります。感謝を重ねるたびに、星はあなたの願いを叶え始め、星明かりは、あなたの道をそっと照らしてくれます。',
-  '「お陰様」という言葉を知っている人は、星に愛されます。すべての出来事の中に、お陰様を見つけられたとき、運命は静かに、好転していくのです。'
+  '「ありがとう」という言葉には、不思議な力があります。感謝を重ねるたびに、星はあなたの願いを叶え始め、星明かりは、あなたの道をそっと照らしてくれます。\n今日も星はあなたの味方です。\nこの鑑定書、必ずPDFで保存しておいてね。また明日も、ここで待っています。✦',
+  '「お陰様」という言葉を知っている人は、星に愛されます。すべての出来事の中に、お陰様を見つけられたとき、運命は静かに、好転していくのです。\n今日も星はあなたの味方です。\nこの鑑定書、必ずPDFで保存しておいてね。また明日も、ここで待っています。✦'
 ];
 
 function getRandomSukiQuote(){
-  return sukiQuotes[Math.floor(Math.random()*sukiQuotes.length)];
+  return sukiQuotes[Math.floor(Math.random()*sukiQuotes.length)].replace(/\n/g,'<br>');
 }
 
 function getZodiac(m,d){
@@ -506,8 +506,8 @@ window.addEventListener('DOMContentLoaded',async function(){
             document.getElementById('resMarkdown').innerHTML=renderMarkdown(savedData.markdown||'');
             document.getElementById('result').style.display='block';
             document.getElementById('pdfWrap').style.display='block';
-            document.getElementById('sukiEnd').style.display='flex';
-            document.getElementById('sukiQuote').textContent='✦ SUKI　'+getRandomSukiQuote();
+            document.getElementById('sukiEnd').style.display='none';
+            document.getElementById('sukiQuote').innerHTML='<span style="font-size:10px;color:var(--gold);letter-spacing:.1em;display:block;margin-bottom:8px;">✦ ASTROLOGER SUKI</span>'+getRandomSukiQuote();
             document.getElementById('sukiQuote').style.display='block';
             document.getElementById('nextWrap').style.display='block';
             // フォームを非表示
@@ -671,8 +671,8 @@ async function startFortune(){
     document.getElementById('fortuneBtn').disabled=true;
     document.getElementById('fortuneBtn').textContent='鑑定完了';
     document.getElementById('pdfWrap').style.display='block';
-    document.getElementById('sukiEnd').style.display='flex';
-    document.getElementById('sukiQuote').textContent='✦ SUKI　'+getRandomSukiQuote();
+    document.getElementById('sukiEnd').style.display='none';
+    document.getElementById('sukiQuote').innerHTML='<span style="font-size:10px;color:var(--gold);letter-spacing:.1em;display:block;margin-bottom:8px;">✦ ASTROLOGER SUKI</span>'+getRandomSukiQuote();
     document.getElementById('sukiQuote').style.display='block';
     document.getElementById('nextWrap').style.display='block';
     setTimeout(function(){window.scrollTo({top:document.getElementById('result').offsetTop-20,behavior:'smooth'});},100);
