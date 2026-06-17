@@ -77,7 +77,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
 .pdf-btn:hover{background:var(--gold-light);}
 .pdf-note{font-size:10px;color:var(--ink-pale);text-align:center;margin-top:8px;line-height:1.8;}
 @media print{
-  .cosmos-bg,.header,.form-section,.agree-wrap,.category-section,.cta-wrap,.loading,.pdf-wrap,.footer{display:none!important;}
+  .cosmos-bg,.header,.form-section,.agree-wrap,.category-section,.cta-wrap,.loading,.pdf-wrap,.footer,.next-wrap{display:none!important;}
   .result{display:block!important;}
   .result-header{border:1px solid #e8d8e0;}
   body{background:#fff;}
@@ -294,9 +294,20 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
     </div>
   </div>
 
+  <!-- SUKIさん：星の言葉（ランダム表示） -->
+  <div class="suki-bubble" id="sukiQuote" style="display:none;margin:20px auto 0;max-width:100%;width:100%;text-align:left;box-sizing:border-box;"></div>
+
   <div class="pdf-wrap" id="pdfWrap" style="display:none;">
     <button type="button" class="pdf-btn" onclick="savePDF()">📄 鑑定結果をPDFで保存する</button>
     <p class="pdf-note">※ 印刷ダイアログで「PDFに保存」を選択してください</p>
+  </div>
+
+  <!-- 次回鑑定への誘導 -->
+  <div class="next-wrap" id="nextWrap" style="display:none;margin-top:28px;padding:28px 24px;background:var(--white);border:1px solid var(--border);border-radius:8px;text-align:center;">
+    <p style="font-family:'Shippori Mincho B1',serif;font-size:14px;color:var(--ink-mid);line-height:2;margin-bottom:18px;">
+      星は、毎日違う言葉を<br>あなたに届けています。<br>また会いに来てくださいね。
+    </p>
+    <a href="lp.html" style="display:inline-block;padding:14px 32px;background:var(--ink);color:var(--cream);border-radius:4px;font-family:'Shippori Mincho B1',serif;font-size:13px;letter-spacing:.15em;text-decoration:none;">また星に問いかける ✦</a>
   </div>
 </div>
 </div>
@@ -315,6 +326,16 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
 var WORKER_URL='https://uranai-worker.suukii01.workers.dev';
 var selectedGender='';
 var currentToken='';
+
+// SUKIの締めの言葉（ランダム表示用）
+var sukiQuotes=[
+  '「ありがとう」という言葉には、不思議な力があります。感謝を重ねるたびに、星はあなたの願いを叶え始め、星明かりは、あなたの道をそっと照らしてくれます。',
+  '「お陰様」という言葉を知っている人は、星に愛されます。すべての出来事の中に、お陰様を見つけられたとき、運命は静かに、好転していくのです。'
+];
+
+function getRandomSukiQuote(){
+  return sukiQuotes[Math.floor(Math.random()*sukiQuotes.length)];
+}
 
 function getZodiac(m,d){
   if((m===1&&d<=19)||(m===12&&d>=22))return {name:'山羊座',symbol:'♑'};
@@ -490,6 +511,9 @@ window.addEventListener('DOMContentLoaded',async function(){
             document.getElementById('result').style.display='block';
             document.getElementById('pdfWrap').style.display='block';
             document.getElementById('sukiEnd').style.display='flex';
+            document.getElementById('sukiQuote').textContent='✦ SUKI　'+getRandomSukiQuote();
+            document.getElementById('sukiQuote').style.display='block';
+            document.getElementById('nextWrap').style.display='block';
             // フォームを非表示
             document.querySelectorAll('.form-section,.agree-wrap,.cta-wrap,.category-section,.suki-wrap').forEach(function(el){el.style.display='none';});
             // 再表示メッセージ
@@ -652,6 +676,9 @@ async function startFortune(){
     document.getElementById('fortuneBtn').textContent='鑑定完了';
     document.getElementById('pdfWrap').style.display='block';
     document.getElementById('sukiEnd').style.display='flex';
+    document.getElementById('sukiQuote').textContent='✦ SUKI　'+getRandomSukiQuote();
+    document.getElementById('sukiQuote').style.display='block';
+    document.getElementById('nextWrap').style.display='block';
     setTimeout(function(){window.scrollTo({top:document.getElementById('result').offsetTop-20,behavior:'smooth'});},100);
 
   }catch(e){
