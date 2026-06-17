@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -77,7 +77,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
 .pdf-btn:hover{background:var(--gold-light);}
 .pdf-note{font-size:10px;color:var(--ink-pale);text-align:center;margin-top:8px;line-height:1.8;}
 @media print{
-  .cosmos-bg,.header,.form-section,.agree-wrap,.category-section,.cta-wrap,.loading,.pdf-wrap,.footer{display:none!important;}
+  .cosmos-bg,.header,.form-section,.agree-wrap,.category-section,.cta-wrap,.loading,.pdf-wrap,.footer,.next-wrap{display:none!important;}
   .result{display:block!important;}
   .result-header{border:1px solid #e8d8e0;}
   body{background:#fff;}
@@ -94,7 +94,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
 .error-msg{background:#fff0f3;border:1px solid #f5c6cb;border-radius:4px;padding:16px 20px;font-size:13px;color:#842029;margin-top:16px;display:none;line-height:1.8;text-align:center;}
 .suki-wrap{text-align:center;margin:0 0 32px;}
 .suki-img{width:100%;max-width:320px;border-radius:16px;box-shadow:0 8px 40px rgba(184,147,74,.15);}
-.suki-bubble{display:inline-block;background:var(--white);border:1px solid var(--border);border-radius:16px 16px 16px 4px;padding:12px 18px;font-family:'Shippori Mincho B1',serif;font-size:13px;color:var(--ink-mid);line-height:1.8;margin-top:12px;max-width:280px;text-align:left;box-shadow:0 2px 12px rgba(184,147,74,.08);}
+.suki-bubble{display:block;background:var(--white);border:1px solid var(--border);border-radius:16px 16px 16px 4px;padding:12px 18px;font-family:'Shippori Mincho B1',serif;font-size:13px;color:var(--ink-mid);line-height:1.5;margin:0 auto;width:100%;max-width:400px;text-align:center;box-shadow:0 2px 12px rgba(184,147,74,.08);}
 .suki-bubble::before{content:'✦ SUKI ';font-size:10px;color:var(--gold);letter-spacing:.1em;display:block;margin-bottom:4px;}
 .suki-mini{display:flex;align-items:center;gap:12px;margin:20px 0;padding:16px;background:var(--white);border:1px solid var(--border);border-radius:12px;}
 .suki-mini-img{width:68px;height:68px;border-radius:50%;object-fit:cover;object-position:50% -10%;flex-shrink:0;border:1px solid var(--gold-light);}
@@ -141,7 +141,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
 
 <div class="invalid-screen" id="invalidScreen">
   <div class="invalid-icon">🔮</div>
-  <div class="invalid-title" id="invalidTitle">このURLは使用済みです</div>
+  <div class="invalid-title" id="invalidTitle">This URL has already been used</div>
   <div class="invalid-text" id="invalidText">Each reading URL is valid for one use only.<br>Please purchase again for a new reading.</div>
 </div>
 
@@ -154,11 +154,10 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
 
 <!-- SUKI: Header -->
 <div class="suki-wrap">
-  <img src="suki.png" alt="占星術師 SUKI" class="suki-img" style="width:100%;max-width:400px;aspect-ratio:3/4;object-fit:cover;object-position:top;" />
+  <img src="suki.png" alt="Astrologer SUKI" class="suki-img" style="width:100%;max-width:400px;aspect-ratio:3/4;object-fit:cover;object-position:top;border-radius:16px 16px 0 16px;" />
   <div class="suki-bubble">
     Hi, I'm SUKI.<br>
-    Right now, the stars have<br>
-    something just for you.<br>
+    Right now, the stars have something just for you.<br>
     Shall we listen together?
   </div>
 </div>
@@ -285,6 +284,10 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
   <div class="fortune-block">
     <div id="resMarkdown" class="md"></div>
   </div>
+
+  <!-- SUKI: Star word (random) -->
+  <div class="suki-bubble" id="sukiQuote" style="display:none;margin:20px auto 0;max-width:100%;width:100%;text-align:left;box-sizing:border-box;"></div>
+
   <!-- SUKI: Closing Message -->
   <div class="suki-mini" id="sukiEnd" style="display:none;">
     <img src="suki-icon.png" alt="SUKI" class="suki-mini-img" />
@@ -297,6 +300,11 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
   <div class="pdf-wrap" id="pdfWrap" style="display:none;">
     <button type="button" class="pdf-btn" onclick="savePDF()">📄 Save Your Reading as PDF</button>
     <p class="pdf-note">* Select "Save as PDF" in the print dialog</p>
+  </div>
+
+  <!-- Next reading CTA -->
+  <div class="next-wrap" id="nextWrap" style="display:none;margin-top:28px;text-align:center;">
+    <a href="lp.html" style="display:inline-block;padding:14px 32px;background:var(--ink);color:var(--cream);border-radius:4px;font-family:'Shippori Mincho B1',serif;font-size:13px;letter-spacing:.15em;text-decoration:none;">Ask the Stars Again ✦</a>
   </div>
 </div>
 </div>
@@ -315,6 +323,18 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
 var WORKER_URL='https://uranai-worker-en.suukii01.workers.dev';
 var selectedGender='';
 var currentToken='';
+
+// SUKI's closing words (random display)
+var sukiQuotes=[
+  'The word "thank you" carries a quiet kind of magic.[BR]Each time you say it, the stars begin to grant your wishes — and that starlight gently lights the path ahead of you.',
+  'Those who understand gratitude for the unseen hands behind every moment are loved by the stars.[BR]When you find that quiet "thanks to you" in everything that happens, fate begins to turn — softly, and surely.'
+];
+
+function getRandomSukiQuote(){
+  var text=sukiQuotes[Math.floor(Math.random()*sukiQuotes.length)];
+  text=text.replace(/\[BR\]/g,'<br><br>');
+  return text;
+}
 
 function getZodiac(m,d){
   if((m===1&&d<=19)||(m===12&&d>=22))return {name:'Capricorn',symbol:'♑'};
@@ -491,7 +511,10 @@ window.addEventListener('DOMContentLoaded',async function(){
             document.getElementById('resMarkdown').innerHTML=renderMarkdown(savedData.markdown||'');
             document.getElementById('result').style.display='block';
             document.getElementById('pdfWrap').style.display='block';
-            document.getElementById('sukiEnd').style.display='flex';
+            document.getElementById('sukiEnd').style.display='none';
+            document.getElementById('sukiQuote').innerHTML='<span style="font-size:10px;color:var(--gold);letter-spacing:.1em;display:block;margin-bottom:8px;">✦ ASTROLOGER SUKI</span>'+getRandomSukiQuote();
+            document.getElementById('sukiQuote').style.display='block';
+            document.getElementById('nextWrap').style.display='block';
             // Hide form
             document.querySelectorAll('.form-section,.agree-wrap,.cta-wrap,.category-section,.suki-wrap').forEach(function(el){el.style.display='none';});
             // Re-display message
@@ -653,7 +676,10 @@ async function startFortune(){
     document.getElementById('fortuneBtn').disabled=true;
     document.getElementById('fortuneBtn').textContent='Reading Complete';
     document.getElementById('pdfWrap').style.display='block';
-    document.getElementById('sukiEnd').style.display='flex';
+    document.getElementById('sukiEnd').style.display='none';
+    document.getElementById('sukiQuote').innerHTML='<span style="font-size:10px;color:var(--gold);letter-spacing:.1em;display:block;margin-bottom:8px;">✦ ASTROLOGER SUKI</span>'+getRandomSukiQuote();
+    document.getElementById('sukiQuote').style.display='block';
+    document.getElementById('nextWrap').style.display='block';
     setTimeout(function(){window.scrollTo({top:document.getElementById('result').offsetTop-20,behavior:'smooth'});},100);
 
   }catch(e){
