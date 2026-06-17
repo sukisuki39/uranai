@@ -94,7 +94,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
 .error-msg{background:#fff0f3;border:1px solid #f5c6cb;border-radius:4px;padding:16px 20px;font-size:13px;color:#842029;margin-top:16px;display:none;line-height:1.8;text-align:center;}
 .suki-wrap{text-align:center;margin:0 0 32px;}
 .suki-img{width:100%;max-width:320px;border-radius:16px;box-shadow:0 8px 40px rgba(184,147,74,.15);}
-.suki-bubble{display:inline-block;background:var(--white);border:1px solid var(--border);border-radius:16px 16px 16px 4px;padding:12px 18px;font-family:'Shippori Mincho B1',serif;font-size:13px;color:var(--ink-mid);line-height:1.8;margin-top:12px;max-width:280px;text-align:left;box-shadow:0 2px 12px rgba(184,147,74,.08);}
+.suki-bubble{display:block;background:var(--white);border:1px solid var(--border);border-radius:16px 16px 16px 4px;padding:12px 18px;font-family:'Shippori Mincho B1',serif;font-size:13px;color:var(--ink-mid);line-height:1.8;margin-top:0;width:100%;max-width:400px;text-align:left;box-shadow:0 2px 12px rgba(184,147,74,.08);}
 .suki-bubble::before{content:'✦ SUKI ';font-size:10px;color:var(--gold);letter-spacing:.1em;display:block;margin-bottom:4px;}
 .suki-mini{display:flex;align-items:center;gap:12px;margin:20px 0;padding:16px;background:var(--white);border:1px solid var(--border);border-radius:12px;}
 .suki-mini-img{width:68px;height:68px;border-radius:50%;object-fit:cover;object-position:50% -10%;flex-shrink:0;border:1px solid var(--gold-light);}
@@ -154,7 +154,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
 
 <!-- SUKIさん：ヘッダー下 -->
 <div class="suki-wrap">
-  <img src="suki.png" alt="占星術師 SUKI" class="suki-img" style="width:100%;max-width:400px;aspect-ratio:3/4;object-fit:cover;object-position:top;" />
+  <img src="suki.png" alt="占星術師 SUKI" class="suki-img" style="width:100%;max-width:400px;aspect-ratio:3/4;object-fit:cover;object-position:top;border-radius:16px 16px 0 16px;" />
   <div class="suki-bubble">
     はじめまして、SUKIです。<br>
     今この瞬間、星があなたに<br>
@@ -285,7 +285,10 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
   <div class="fortune-block">
     <div id="resMarkdown" class="md"></div>
   </div>
-  <!-- SUKIさん：締めのメッセージ -->
+  <!-- SUKIさん：星の言葉（ランダム表示）← 上 -->
+  <div class="suki-bubble" id="sukiQuote" style="display:none;margin:20px auto 0;max-width:100%;width:100%;text-align:left;box-sizing:border-box;"></div>
+
+  <!-- SUKIさん：締めのメッセージ ← 下 -->
   <div class="suki-mini" id="sukiEnd" style="display:none;">
     <img src="suki-icon.png" alt="SUKI" class="suki-mini-img" />
     <div>
@@ -294,19 +297,13 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--i
     </div>
   </div>
 
-  <!-- SUKIさん：星の言葉（ランダム表示） -->
-  <div class="suki-bubble" id="sukiQuote" style="display:none;margin:20px auto 0;max-width:100%;width:100%;text-align:left;box-sizing:border-box;"></div>
-
   <div class="pdf-wrap" id="pdfWrap" style="display:none;">
     <button type="button" class="pdf-btn" onclick="savePDF()">📄 鑑定結果をPDFで保存する</button>
     <p class="pdf-note">※ 印刷ダイアログで「PDFに保存」を選択してください</p>
   </div>
 
-  <!-- 次回鑑定への誘導 -->
-  <div class="next-wrap" id="nextWrap" style="display:none;margin-top:28px;padding:28px 24px;background:var(--white);border:1px solid var(--border);border-radius:8px;text-align:center;">
-    <p style="font-family:'Shippori Mincho B1',serif;font-size:14px;color:var(--ink-mid);line-height:2;margin-bottom:18px;">
-      星は、毎日違う言葉を<br>あなたに届けています。<br>また会いに来てくださいね。
-    </p>
+  <!-- 次回鑑定への誘導（ボタンのみ） -->
+  <div class="next-wrap" id="nextWrap" style="display:none;margin-top:28px;text-align:center;">
     <a href="lp.html" style="display:inline-block;padding:14px 32px;background:var(--ink);color:var(--cream);border-radius:4px;font-family:'Shippori Mincho B1',serif;font-size:13px;letter-spacing:.15em;text-decoration:none;">また星に問いかける ✦</a>
   </div>
 </div>
